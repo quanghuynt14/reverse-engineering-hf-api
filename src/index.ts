@@ -17,6 +17,6 @@ for await (const model of listCollections({
 }
 
 // Save res to a JSON file
-const outputPath = join(process.cwd(), "collections.json");
+const outputPath = join(process.cwd(), "generated/collections.json");
 writeFileSync(outputPath, JSON.stringify(res, null, 2));
 console.log(`Collections saved to: ${outputPath}`);

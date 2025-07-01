@@ -1,0 +1,29 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "generate-collections": "node dist/index.js",
+    "test-owner": "node dist/test-owner.js",
+    "test-items": "node dist/test-items.js"
+  },
+  "author": "quanghuynt14",
+  "license": "MIT",
+  "description": "Reverse engineering the Hugging Face API to understand the schemas used in the API responses.",
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^24.0.7",
+    "eslint": "^9.30.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "dotenv": "^17.0.0"
+  }
+}

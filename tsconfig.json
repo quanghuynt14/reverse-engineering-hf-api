@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "preserve",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}

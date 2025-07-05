@@ -4468,6 +4468,7 @@ export interface paths {
                   description?: string;
                   value: string;
                 }[];
+                // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
                 sleepTimeSeconds?: number | -1;
                 /** @enum {unknown} */
                 sdk: "gradio" | "docker" | "static" | "streamlit";

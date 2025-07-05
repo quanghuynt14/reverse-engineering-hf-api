@@ -4,6143 +4,7530 @@
  */
 
 export interface paths {
-    "/api/notifications": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List notifications for the user */
-        get: {
-            parameters: {
-                query?: {
-                    p?: number;
-                    readStatus?: "all" | "unread";
-                    repoType?: "dataset" | "model" | "space";
-                    repoName?: string;
-                    postAuthor?: string;
-                    paperId?: string;
-                    articleId?: string;
-                    mention?: "all" | "participating" | "mentions";
-                    lastUpdate?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The notifications for the user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            notifications: ({
-                                /** @constant */
-                                type: "paper";
-                                /** Format: date-time */
-                                updatedAt: string;
-                                read: boolean;
-                                discussionEventId?: string;
-                                paper: {
-                                    _id: string;
-                                    title: string;
-                                };
-                                paperDiscussion: {
-                                    id: string;
-                                    participating: {
-                                        _id: string;
-                                        avatar: string;
-                                        user: string;
-                                    }[];
-                                    paperId: string;
-                                };
-                            } | {
-                                /** @constant */
-                                type: "repo";
-                                /** Format: date-time */
-                                updatedAt: string;
-                                read: boolean;
-                                discussionEventId?: string;
-                                repo: components["schemas"]["RepoId"];
-                                discussion: {
-                                    num: number;
-                                    title: string;
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "closed" | "merged";
-                                    id: string;
-                                    isPullRequest: boolean;
-                                    participating: {
-                                        _id: string;
-                                        avatar: string;
-                                        user: string;
-                                    }[];
-                                };
-                            } | {
-                                /** @constant */
-                                type: "post";
-                                /** Format: date-time */
-                                updatedAt: string;
-                                read: boolean;
-                                discussionEventId?: string;
-                                post: {
-                                    id: string;
-                                    slug: string;
-                                    authorName: string;
-                                    title: string;
-                                    participating: {
-                                        _id: string;
-                                        avatar: string;
-                                        user: string;
-                                    }[];
-                                };
-                            } | {
-                                /** @constant */
-                                type: "canonical_blog";
-                                /** Format: date-time */
-                                updatedAt: string;
-                                read: boolean;
-                                discussionEventId?: string;
-                                canonicalBlog: {
-                                    id: string;
-                                    local: string;
-                                    title: string;
-                                    participating: {
-                                        _id: string;
-                                        avatar: string;
-                                        user: string;
-                                    }[];
-                                };
-                            } | {
-                                /** @constant */
-                                type: "community_blog";
-                                /** Format: date-time */
-                                updatedAt: string;
-                                read: boolean;
-                                discussionEventId?: string;
-                                communityBlog: {
-                                    id: string;
-                                    authorName: string;
-                                    slug: string;
-                                    title: string;
-                                    participating: {
-                                        _id: string;
-                                        avatar: string;
-                                        user: string;
-                                    }[];
-                                };
-                            })[];
-                            count: {
-                                view: number;
-                                unread: number;
-                                all: number;
-                            };
-                            start: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /**
-         * Delete notifications
-         * @description Delete notifications, either by specifying discussionIds or by applying to all notifications with search parameters
-         */
-        delete: {
-            parameters: {
-                query?: {
-                    p?: number;
-                    readStatus?: "all" | "unread";
-                    repoType?: "dataset" | "model" | "space";
-                    repoName?: string;
-                    postAuthor?: string;
-                    paperId?: string;
-                    articleId?: string;
-                    mention?: "all" | "participating" | "mentions";
-                    lastUpdate?: string;
-                    applyToAll?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        discussionIds?: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/api/notifications": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/settings/mcp": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /** List notifications for the user */
+    get: {
+      parameters: {
+        query?: {
+          p?: number;
+          readStatus?: "all" | "unread";
+          repoType?: "dataset" | "model" | "space";
+          repoName?: string;
+          postAuthor?: string;
+          paperId?: string;
+          articleId?: string;
+          mention?: "all" | "participating" | "mentions";
+          lastUpdate?: string;
         };
-        /** Get the MCP tools for the current user */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The MCP tools for the current user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The notifications for the user */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              notifications: (
+                | {
+                    /** @constant */
+                    type: "paper";
+                    /** Format: date-time */
+                    updatedAt: string;
+                    read: boolean;
+                    discussionEventId?: string;
+                    paper: {
+                      _id: string;
+                      title: string;
                     };
-                    content: {
-                        "application/json": {
-                            builtInTools: string[];
-                            spaceTools: {
-                                _id: string;
-                                name: string;
-                                emoji: string;
-                                subdomain: string;
-                            }[];
-                        };
+                    paperDiscussion: {
+                      id: string;
+                      participating: {
+                        _id: string;
+                        avatar: string;
+                        user: string;
+                      }[];
+                      paperId: string;
                     };
-                };
+                  }
+                | {
+                    /** @constant */
+                    type: "repo";
+                    /** Format: date-time */
+                    updatedAt: string;
+                    read: boolean;
+                    discussionEventId?: string;
+                    repo: components["schemas"]["RepoId"];
+                    discussion: {
+                      num: number;
+                      title: string;
+                      /** @enum {unknown} */
+                      status: "draft" | "open" | "closed" | "merged";
+                      id: string;
+                      isPullRequest: boolean;
+                      participating: {
+                        _id: string;
+                        avatar: string;
+                        user: string;
+                      }[];
+                    };
+                  }
+                | {
+                    /** @constant */
+                    type: "post";
+                    /** Format: date-time */
+                    updatedAt: string;
+                    read: boolean;
+                    discussionEventId?: string;
+                    post: {
+                      id: string;
+                      slug: string;
+                      authorName: string;
+                      title: string;
+                      participating: {
+                        _id: string;
+                        avatar: string;
+                        user: string;
+                      }[];
+                    };
+                  }
+                | {
+                    /** @constant */
+                    type: "canonical_blog";
+                    /** Format: date-time */
+                    updatedAt: string;
+                    read: boolean;
+                    discussionEventId?: string;
+                    canonicalBlog: {
+                      id: string;
+                      local: string;
+                      title: string;
+                      participating: {
+                        _id: string;
+                        avatar: string;
+                        user: string;
+                      }[];
+                    };
+                  }
+                | {
+                    /** @constant */
+                    type: "community_blog";
+                    /** Format: date-time */
+                    updatedAt: string;
+                    read: boolean;
+                    discussionEventId?: string;
+                    communityBlog: {
+                      id: string;
+                      authorName: string;
+                      slug: string;
+                      title: string;
+                      participating: {
+                        _id: string;
+                        avatar: string;
+                        user: string;
+                      }[];
+                    };
+                  }
+              )[];
+              count: {
+                view: number;
+                unread: number;
+                all: number;
+              };
+              start: number;
             };
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/api/settings/notifications": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Delete notifications
+     * @description Delete notifications, either by specifying discussionIds or by applying to all notifications with search parameters
+     */
+    delete: {
+      parameters: {
+        query?: {
+          p?: number;
+          readStatus?: "all" | "unread";
+          repoType?: "dataset" | "model" | "space";
+          repoName?: string;
+          postAuthor?: string;
+          paperId?: string;
+          articleId?: string;
+          mention?: "all" | "participating" | "mentions";
+          lastUpdate?: string;
+          applyToAll?: boolean;
         };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Update notification settings
-         * @description Update notification settings for the user
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        notifications: {
-                            announcements?: boolean;
-                            arxiv_paper_activity?: boolean;
-                            daily_papers_digest?: boolean;
-                            discussions_participating?: boolean;
-                            discussions_watched?: boolean;
-                            gated_user_access_request?: boolean;
-                            launch_autonlp?: boolean;
-                            launch_spaces?: boolean;
-                            launch_prepaid_credits?: boolean;
-                            launch_training_cluster?: boolean;
-                            org_request?: boolean;
-                            org_suggestions?: boolean;
-                            org_verified_suggestions?: boolean;
-                            org_suggestions_to_create?: boolean;
-                            posts_participating?: boolean;
-                            user_follows?: boolean;
-                            secret_detected?: boolean;
-                            web_discussions_participating?: boolean;
-                            web_discussions_watched?: boolean;
-                            web_posts_participating?: boolean;
-                            /** Format: date-time */
-                            product_updates_after?: string;
-                        };
-                        /** @description To be provided when enabling launch_prepaid_credits */
-                        prepaidAmount?: string;
-                    };
-                };
-            };
-            responses: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            discussionIds?: string[];
+          };
         };
-        trace?: never;
+      };
+      responses: never;
     };
-    "/api/settings/watch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Update watch settings
-         * @description Update watch settings for the user. Get notified when discussions happen on your watched items.
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** @default [] */
-                        delete?: {
-                            id: string;
-                            /** @enum {unknown} */
-                            type: "org" | "user" | "repo";
-                        }[];
-                        /** @default [] */
-                        add?: {
-                            id: string;
-                            /** @enum {unknown} */
-                            type: "org" | "user" | "repo";
-                        }[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        trace?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/settings/mcp": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/organizations/{name}/audit-log/export": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /** Get the MCP tools for the current user */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The MCP tools for the current user */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              builtInTools: string[];
+              spaceTools: {
+                _id: string;
+                name: string;
+                emoji: string;
+                subdomain: string;
+              }[];
+            };
+          };
         };
-        /**
-         * Export the audit log
-         * @description Export the audit log events in JSON format for a Team or Enterprise organization. The export is limited to the last 100,000 events.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    q?: string;
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/settings/notifications": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * Update notification settings
+     * @description Update notification settings for the user
+     */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            notifications: {
+              announcements?: boolean;
+              arxiv_paper_activity?: boolean;
+              daily_papers_digest?: boolean;
+              discussions_participating?: boolean;
+              discussions_watched?: boolean;
+              gated_user_access_request?: boolean;
+              launch_autonlp?: boolean;
+              launch_spaces?: boolean;
+              launch_prepaid_credits?: boolean;
+              launch_training_cluster?: boolean;
+              org_request?: boolean;
+              org_suggestions?: boolean;
+              org_verified_suggestions?: boolean;
+              org_suggestions_to_create?: boolean;
+              posts_participating?: boolean;
+              user_follows?: boolean;
+              secret_detected?: boolean;
+              web_discussions_participating?: boolean;
+              web_discussions_watched?: boolean;
+              web_posts_participating?: boolean;
+              /** Format: date-time */
+              product_updates_after?: string;
+            };
+            /** @description To be provided when enabling launch_prepaid_credits */
+            prepaidAmount?: string;
+          };
+        };
+      };
+      responses: never;
+    };
+    trace?: never;
+  };
+  "/api/settings/watch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * Update watch settings
+     * @description Update watch settings for the user. Get notified when discussions happen on your watched items.
+     */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            /** @default [] */
+            delete?: {
+              id: string;
+              /** @enum {unknown} */
+              type: "org" | "user" | "repo";
+            }[];
+            /** @default [] */
+            add?: {
+              id: string;
+              /** @enum {unknown} */
+              type: "org" | "user" | "repo";
+            }[];
+          };
+        };
+      };
+      responses: never;
+    };
+    trace?: never;
+  };
+  "/api/organizations/{name}/audit-log/export": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Export the audit log
+     * @description Export the audit log events in JSON format for a Team or Enterprise organization. The export is limited to the last 100,000 events.
+     */
+    get: {
+      parameters: {
+        query?: {
+          q?: string;
+        };
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Array of audit log events */
+        200: {
+          headers: {
+            /** @description The filename of the exported audit log */
+            "Content-Disposition"?: string;
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              _id: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** @enum {unknown} */
+              type:
+                | "billing.update_payment_method"
+                | "billing.create_customer"
+                | "billing.remove_payment_method"
+                | "billing.aws_add"
+                | "billing.aws_remove"
+                | "billing.gcp_add"
+                | "billing.gcp_remove"
+                | "billing.marketplace_approve"
+                | "billing.cancel_subscription"
+                | "billing.renew_subscription"
+                | "billing.start_subscription"
+                | "billing.un_cancel_subscription"
+                | "billing.update_subscription"
+                | "billing.update_subscription_plan"
+                | "collection.create"
+                | "collection.delete"
+                | "org.add_user"
+                | "org.change_role"
+                | "org.create"
+                | "org.delete"
+                | "org.restore"
+                | "org.invite_user"
+                | "org.invite.accept"
+                | "org.invite.email"
+                | "org.join.from_domain"
+                | "org.join.automatic"
+                | "org.leave"
+                | "org.remove_user"
+                | "org.rename"
+                | "org.rotate_token"
+                | "org.sso_login"
+                | "org.sso_join"
+                | "org.update_join_settings"
+                | "org.update_settings"
+                | "org.token_approval.enabled"
+                | "org.token_approval.disabled"
+                | "org.token_approval.authorization_request"
+                | "org.token_approval.authorization_request.authorized"
+                | "org.token_approval.authorization_request.revoked"
+                | "org.token_approval.authorization_request.denied"
+                | "repo.add_secrets"
+                | "repo.remove_secrets"
+                | "repo.add_secret"
+                | "repo.update_secret"
+                | "repo.remove_secret"
+                | "repo.create"
+                | "repo.delete"
+                | "repo.disable"
+                | "repo.removeDisable"
+                | "repo.duplication"
+                | "repo.delete_doi"
+                | "repo.move"
+                | "repo.update_resource_group"
+                | "repo.update_settings"
+                | "repo.add_variable"
+                | "repo.update_variable"
+                | "repo.remove_variable"
+                | "repo.add_variables"
+                | "repo.remove_variables"
+                | "repo.delete_lfs_file"
+                | "spaces.add_storage"
+                | "spaces.remove_storage"
+                | "spaces.update_hardware"
+                | "spaces.update_sleep_time"
+                | "resource_group.create"
+                | "resource_group.add_users"
+                | "resource_group.remove_users"
+                | "resource_group.change_role"
+                | "resource_group.settings"
+                | "resource_group.delete";
+              data?: unknown;
+              message: string;
+              ip?: string;
+              location?: {
+                formatted: string;
+                country?: string;
+                city?: string;
+              };
+              userAgent?: string;
+              author: {
+                _id: string;
+                user: string;
+                avatarUrl: string;
+                /** @enum {unknown} */
+                type: "user" | "system";
+                deleted?: boolean;
+              };
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/organizations/{name}/resource-groups": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Retrieve accessible resource groups
+     * @description Get all resource groups the user has access to.
+     *
+     *   Requires the org to be Enterprise
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Resource groups the user has access to */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              id: string;
+              name: string;
+              description?: string | null;
+              autoJoin?:
+                | {
+                    /** @constant */
+                    enabled: true;
+                    /** @enum {unknown} */
+                    role: "admin" | "write" | "contributor" | "read";
+                  }
+                | {
+                    /** @constant */
+                    enabled: false;
+                  };
+              users: {
+                /** @constant */
+                type: "user";
+                _id: string;
+                fullname: string;
+                name: string;
+                avatarUrl: string;
+                /** @enum {unknown} */
+                role: "admin" | "write" | "contributor" | "read";
+                addedBy?: string;
+              }[];
+              repos: {
+                name: string;
+                /** @enum {unknown} */
+                type: "dataset" | "model" | "space";
+                addedBy?: string;
+                private: boolean;
+              }[];
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Create a resource group
+     * @description Create a new resource group in the organization.
+     *
+     *   Requires the org to be Enterprise
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            name: string;
+            description?: string;
+            /** @default [] */
+            users?: {
+              user: string;
+              /** @enum {unknown} */
+              role: "admin" | "write" | "contributor" | "read";
+            }[];
+            /** @default [] */
+            repos?: components["schemas"]["RepoId"][];
+            autoJoin?:
+              | {
+                  /** @constant */
+                  enabled: true;
+                  /** @enum {unknown} */
+                  role: "admin" | "write" | "contributor" | "read";
+                }
+              | {
+                  /** @constant */
+                  enabled: false;
                 };
-                header?: never;
-                path: {
+          };
+        };
+      };
+      responses: {
+        /** @description The created resource group */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              id: string;
+              name: string;
+              description?: string | null;
+              autoJoin?:
+                | {
+                    /** @constant */
+                    enabled: true;
+                    /** @enum {unknown} */
+                    role: "admin" | "write" | "contributor" | "read";
+                  }
+                | {
+                    /** @constant */
+                    enabled: false;
+                  };
+              users: {
+                /** @constant */
+                type: "user";
+                _id: string;
+                fullname: string;
+                name: string;
+                avatarUrl: string;
+                /** @enum {unknown} */
+                role: "admin" | "write" | "contributor" | "read";
+                addedBy?: string;
+              }[];
+              repos: {
+                name: string;
+                /** @enum {unknown} */
+                type: "dataset" | "model" | "space";
+                addedBy?: string;
+                private: boolean;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/organizations/{name}/avatar": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Retrieve organization avatar
+     * @description This endpoint returns a JSON with the avatar URL for the organization.
+     *
+     *   If called with the `Sec-Fetch-Dest: image` header, it instead redirects to the avatar URL
+     */
+    get: {
+      parameters: {
+        query?: {
+          redirect?: unknown;
+        };
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Avatar URL */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** Format: uri */
+              avatarUrl: string;
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/oauth/userinfo": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get user info
+     * @description Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description User info */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** @description ID of the user */
+              sub: string;
+              /** @description Full name of the user */
+              name?: string;
+              /** @description Username of the user */
+              preferred_username?: string;
+              /**
+               * Format: uri
+               * @description Profile URL of the user
+               */
+              profile?: string;
+              /**
+               * Format: uri
+               * @description Avatar URL of the user
+               */
+              picture?: string;
+              /**
+               * Format: uri
+               * @description Website of the user
+               */
+              website?: string;
+              /** @description Email of the user */
+              email?: string;
+              /** @description Whether the email is verified */
+              email_verified?: boolean;
+              /** @description Whether the user is a Pro user */
+              isPro: boolean;
+              /** @description Whether the user has access to billing */
+              canPay?: boolean;
+              orgs: {
+                /** @description ID of the organization */
+                sub: string;
+                /** @description Name of the organization */
+                name: string;
+                /**
+                 * Format: uri
+                 * @description Avatar URL of the organization
+                 */
+                picture: string;
+                /** @description Username of the organization */
+                preferred_username: string;
+                isEnterprise: boolean;
+                canPay?: boolean;
+                /** @enum {unknown} */
+                roleInOrg?: "admin" | "write" | "contributor" | "read";
+                pendingSSO?: boolean;
+                missingMFA?: boolean;
+                resourceGroups?: {
+                  sub: string;
+                  name: string;
+                  /** @enum {unknown} */
+                  role: "admin" | "write" | "contributor" | "read";
+                }[];
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Get user info
+     * @description Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description User info */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              /** @description ID of the user */
+              sub: string;
+              /** @description Full name of the user */
+              name?: string;
+              /** @description Username of the user */
+              preferred_username?: string;
+              /**
+               * Format: uri
+               * @description Profile URL of the user
+               */
+              profile?: string;
+              /**
+               * Format: uri
+               * @description Avatar URL of the user
+               */
+              picture?: string;
+              /**
+               * Format: uri
+               * @description Website of the user
+               */
+              website?: string;
+              /** @description Email of the user */
+              email?: string;
+              /** @description Whether the email is verified */
+              email_verified?: boolean;
+              /** @description Whether the user is a Pro user */
+              isPro: boolean;
+              /** @description Whether the user has access to billing */
+              canPay?: boolean;
+              orgs: {
+                /** @description ID of the organization */
+                sub: string;
+                /** @description Name of the organization */
+                name: string;
+                /**
+                 * Format: uri
+                 * @description Avatar URL of the organization
+                 */
+                picture: string;
+                /** @description Username of the organization */
+                preferred_username: string;
+                isEnterprise: boolean;
+                canPay?: boolean;
+                /** @enum {unknown} */
+                roleInOrg?: "admin" | "write" | "contributor" | "read";
+                pendingSSO?: boolean;
+                missingMFA?: boolean;
+                resourceGroups?: {
+                  sub: string;
+                  name: string;
+                  /** @enum {unknown} */
+                  role: "admin" | "write" | "contributor" | "read";
+                }[];
+              }[];
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/blog/{slug}/comment": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          slug: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
                     name: string;
+                  };
                 };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Array of audit log events */
-                200: {
-                    headers: {
-                        /** @description The filename of the exported audit log */
-                        "Content-Disposition"?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            _id: string;
-                            /** Format: date-time */
-                            createdAt: string;
-                            /** @enum {unknown} */
-                            type: "billing.update_payment_method" | "billing.create_customer" | "billing.remove_payment_method" | "billing.aws_add" | "billing.aws_remove" | "billing.gcp_add" | "billing.gcp_remove" | "billing.marketplace_approve" | "billing.cancel_subscription" | "billing.renew_subscription" | "billing.start_subscription" | "billing.un_cancel_subscription" | "billing.update_subscription" | "billing.update_subscription_plan" | "collection.create" | "collection.delete" | "org.add_user" | "org.change_role" | "org.create" | "org.delete" | "org.restore" | "org.invite_user" | "org.invite.accept" | "org.invite.email" | "org.join.from_domain" | "org.join.automatic" | "org.leave" | "org.remove_user" | "org.rename" | "org.rotate_token" | "org.sso_login" | "org.sso_join" | "org.update_join_settings" | "org.update_settings" | "org.token_approval.enabled" | "org.token_approval.disabled" | "org.token_approval.authorization_request" | "org.token_approval.authorization_request.authorized" | "org.token_approval.authorization_request.revoked" | "org.token_approval.authorization_request.denied" | "repo.add_secrets" | "repo.remove_secrets" | "repo.add_secret" | "repo.update_secret" | "repo.remove_secret" | "repo.create" | "repo.delete" | "repo.disable" | "repo.removeDisable" | "repo.duplication" | "repo.delete_doi" | "repo.move" | "repo.update_resource_group" | "repo.update_settings" | "repo.add_variable" | "repo.update_variable" | "repo.remove_variable" | "repo.add_variables" | "repo.remove_variables" | "repo.delete_lfs_file" | "spaces.add_storage" | "spaces.remove_storage" | "spaces.update_hardware" | "spaces.update_sleep_time" | "resource_group.create" | "resource_group.add_users" | "resource_group.remove_users" | "resource_group.change_role" | "resource_group.settings" | "resource_group.delete";
-                            data?: unknown;
-                            message: string;
-                            ip?: string;
-                            location?: {
-                                formatted: string;
-                                country?: string;
-                                city?: string;
-                            };
-                            userAgent?: string;
-                            author: {
-                                _id: string;
-                                user: string;
-                                avatarUrl: string;
-                                /** @enum {unknown} */
-                                type: "user" | "system";
-                                deleted?: boolean;
-                            };
-                        }[];
-                    };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
                 };
+              };
             };
+            description: unknown;
+          };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/api/organizations/{name}/resource-groups": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/blog/{slug}/comment/{commentId}/reply": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          slug: string;
+          commentId: string;
         };
-        /**
-         * Retrieve accessible resource groups
-         * @description Get all resource groups the user has access to.
-         *
-         *     Requires the org to be Enterprise
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    name: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Resource groups the user has access to */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            description?: string | null;
-                            autoJoin?: {
-                                /** @constant */
-                                enabled: true;
-                                /** @enum {unknown} */
-                                role: "admin" | "write" | "contributor" | "read";
-                            } | {
-                                /** @constant */
-                                enabled: false;
-                            };
-                            users: {
-                                /** @constant */
-                                type: "user";
-                                _id: string;
-                                fullname: string;
-                                name: string;
-                                avatarUrl: string;
-                                /** @enum {unknown} */
-                                role: "admin" | "write" | "contributor" | "read";
-                                addedBy?: string;
-                            }[];
-                            repos: {
-                                name: string;
-                                /** @enum {unknown} */
-                                type: "dataset" | "model" | "space";
-                                addedBy?: string;
-                                private: boolean;
-                            }[];
-                        }[];
-                    };
-                };
-            };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
         };
-        put?: never;
-        /**
-         * Create a resource group
-         * @description Create a new resource group in the organization.
-         *
-         *     Requires the org to be Enterprise
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
                     name: string;
+                  };
                 };
-                cookie?: never;
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
             };
-            requestBody?: {
-                content: {
-                    "application/json": {
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/blog/{namespace}/{slug}/comment": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/blog/{namespace}/{slug}/comment/{commentId}/reply": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          commentId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/docs/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Search any Hugging Face documentation */
+    get: {
+      parameters: {
+        query: {
+          q: string;
+          product?:
+            | "hub"
+            | "transformers"
+            | "diffusers"
+            | "datasets"
+            | "gradio"
+            | "smolagents"
+            | "huggingface_hub"
+            | "huggingface.js"
+            | "transformers.js"
+            | "inference-providers"
+            | "inference-endpoints"
+            | "peft"
+            | "accelerate"
+            | "optimum"
+            | "optimum-habana"
+            | "optimum-neuron"
+            | "optimum-intel"
+            | "optimum-executorch"
+            | "tokenizers"
+            | "llm-course"
+            | "mcp-course"
+            | "agents-course"
+            | "deep-rl-course"
+            | "computer-vision-course"
+            | "evaluate"
+            | "tasks"
+            | "dataset-viewer"
+            | "trl"
+            | "simulate"
+            | "sagemaker"
+            | "timm"
+            | "safetensors"
+            | "tgi"
+            | "setfit"
+            | "audio-course"
+            | "lerobot"
+            | "autotrain"
+            | "tei"
+            | "bitsandbytes"
+            | "cookbook"
+            | "sentence_transformers"
+            | "ml-games-course"
+            | "diffusion-course"
+            | "ml-for-3d-course"
+            | "chat-ui"
+            | "leaderboards"
+            | "lighteval"
+            | "argilla"
+            | "distilabel"
+            | "microsoft-azure";
+          limit?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Search results */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              id: string;
+              _vectors: {
+                embeddings: number[];
+              };
+              heading1: string;
+              text: string;
+              product: string;
+              source_page_url: string;
+              source_page_title: string;
+              heading2?: string;
+              heading3?: string;
+              heading4?: string;
+              heading5?: string;
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/whoami-v2": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get information about the user and auth method used */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Auth information */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              auth: {
+                type: string;
+                accessToken?: {
+                  displayName: string;
+                  /** @enum {unknown} */
+                  role: "read" | "write" | "god" | "fineGrained";
+                  fineGrained?: {
+                    scoped: {
+                      entity: {
+                        _id: string;
+                        name?: string;
+                        /** @enum {unknown} */
+                        type:
+                          | "dataset"
+                          | "model"
+                          | "space"
+                          | "collection"
+                          | "org"
+                          | "user"
+                          | "resource-group"
+                          | "oauth-app";
+                      };
+                      permissions: string[];
+                    }[];
+                    global?: ("discussion.write" | "post.write")[];
+                    /** @description Allow access to all public gated repos to which the user has access */
+                    canReadGatedRepos?: boolean;
+                  };
+                };
+                /** Format: date-time */
+                expiresAt?: string;
+                resource?: {
+                  sub: string;
+                };
+              };
+              /** @constant */
+              type: "user";
+              id: string;
+              name: string;
+              fullname: string;
+              email?: string | null;
+              canPay?: boolean;
+              avatarUrl: string;
+              periodEnd?: number | null;
+              emailVerified?: boolean;
+              isPro: boolean;
+              orgs: {
+                /** @constant */
+                type: "org";
+                id: string;
+                name: string;
+                fullname: string;
+                email?: string | null;
+                canPay?: boolean;
+                avatarUrl: string;
+                periodEnd?: number | null;
+                isEnterprise: boolean;
+                /** @enum {unknown} */
+                roleInOrg?: "admin" | "write" | "contributor" | "read";
+                pendingSSO?: boolean;
+                missingMFA?: boolean;
+                resourceGroups?: {
+                  id: string;
+                  name: string;
+                  /** @enum {unknown} */
+                  role: "admin" | "write" | "contributor" | "read";
+                }[];
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/discussions/mark-as-read": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Mark discussions as read or unread
+     * @description Mark discussions as read or unread. If `applyToAll` is true, all notifications for the user matching the search parameters will be marked as read or unread.
+     */
+    post: {
+      parameters: {
+        query?: {
+          p?: number;
+          readStatus?: "all" | "unread";
+          repoType?: "dataset" | "model" | "space";
+          repoName?: string;
+          postAuthor?: string;
+          paperId?: string;
+          articleId?: string;
+          mention?: "all" | "participating" | "mentions";
+          lastUpdate?: string;
+          applyToAll?: boolean;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            /** @default [] */
+            discussionIds?: string[];
+            /** @default true */
+            read?: boolean;
+          };
+        };
+      };
+      responses: never;
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/organizations/{name}/billing/usage": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get org usage for a given period */
+    get: {
+      parameters: {
+        query?: {
+          periodId?: string;
+        };
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Usage and period information */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              usage: {
+                [key: string]: {
+                  entityId: string;
+                  label: string | null;
+                  /** @enum {unknown} */
+                  product:
+                    | "hf/repository-storage"
+                    | "spaces/cpu-basic/minutes"
+                    | "spaces/zero-a10g/minutes"
+                    | "spaces/cpu-upgrade/minutes"
+                    | "spaces/cpu-performance/minutes"
+                    | "spaces/cpu-xl/minutes"
+                    | "spaces/t4-small/minutes"
+                    | "spaces/t4-medium/minutes"
+                    | "spaces/a10g-small/minutes"
+                    | "spaces/a10g-large/minutes"
+                    | "spaces/a10g-largex2/minutes"
+                    | "spaces/a10g-largex4/minutes"
+                    | "spaces/a100-large/minutes"
+                    | "spaces/h100/minutes"
+                    | "spaces/h100x8/minutes"
+                    | "spaces/l4x1/minutes"
+                    | "spaces/l4x4/minutes"
+                    | "spaces/l40sx1/minutes"
+                    | "spaces/l40sx4/minutes"
+                    | "spaces/l40sx8/minutes"
+                    | "spaces/v5e-2x4/minutes"
+                    | "spaces/v5e-2x2/minutes"
+                    | "spaces/v5e-1x1/minutes"
+                    | "spaces/storage-small/minutes"
+                    | "spaces/storage-medium/minutes"
+                    | "spaces/storage-large/minutes"
+                    | "endpoints/azure/intel-xeon/x1"
+                    | "endpoints/azure/intel-xeon/x2"
+                    | "endpoints/azure/intel-xeon/x4"
+                    | "endpoints/azure/intel-xeon/x8"
+                    | "endpoints/aws/intel-icl/x1"
+                    | "endpoints/aws/intel-icl/x2"
+                    | "endpoints/aws/intel-icl/x4"
+                    | "endpoints/aws/intel-icl/x8"
+                    | "endpoints/aws/intel-spr/x1"
+                    | "endpoints/aws/intel-spr/x2"
+                    | "endpoints/aws/intel-spr/x4"
+                    | "endpoints/aws/intel-spr/x8"
+                    | "endpoints/aws/intel-spr/x16"
+                    | "endpoints/aws/nvidia-t4/x1"
+                    | "endpoints/aws/nvidia-t4/x4"
+                    | "endpoints/aws/nvidia-l4/x1"
+                    | "endpoints/aws/nvidia-l4/x4"
+                    | "endpoints/aws/nvidia-l40s/x1"
+                    | "endpoints/aws/nvidia-l40s/x4"
+                    | "endpoints/aws/nvidia-l40s/x8"
+                    | "endpoints/aws/nvidia-a10g/x1"
+                    | "endpoints/aws/nvidia-a10g/x4"
+                    | "endpoints/aws/nvidia-a100/x1"
+                    | "endpoints/aws/nvidia-a100/x2"
+                    | "endpoints/aws/nvidia-a100/x4"
+                    | "endpoints/aws/nvidia-a100/x8"
+                    | "endpoints/aws/nvidia-h200/x1"
+                    | "endpoints/aws/nvidia-h200/x2"
+                    | "endpoints/aws/nvidia-h200/x4"
+                    | "endpoints/aws/nvidia-h200/x8"
+                    | "endpoints/aws/inf2/x1"
+                    | "endpoints/aws/inf2/x12"
+                    | "endpoints/gcp/intel-spr/x1"
+                    | "endpoints/gcp/intel-spr/x2"
+                    | "endpoints/gcp/intel-spr/x4"
+                    | "endpoints/gcp/intel-spr/x8"
+                    | "endpoints/gcp/nvidia-t4/x1"
+                    | "endpoints/gcp/nvidia-l4/x1"
+                    | "endpoints/gcp/nvidia-l4/x4"
+                    | "endpoints/gcp/nvidia-a100/x1"
+                    | "endpoints/gcp/nvidia-a100/x2"
+                    | "endpoints/gcp/nvidia-a100/x4"
+                    | "endpoints/gcp/nvidia-a100/x8"
+                    | "endpoints/gcp/nvidia-h100/x1"
+                    | "endpoints/gcp/nvidia-h100/x2"
+                    | "endpoints/gcp/nvidia-h100/x4"
+                    | "endpoints/gcp/nvidia-h100/x8"
+                    | "endpoints/gcp/v5e/1x1"
+                    | "endpoints/gcp/v5e/2x2"
+                    | "endpoints/gcp/v5e/2x4";
+                  quantity: number;
+                  /** Format: date-time */
+                  startedAt?: string;
+                  stoppedAt?: string | null;
+                  freeGrant?: boolean;
+                  productPrettyName: string;
+                  unitLabel: string | null;
+                  totalCostMicroUSD: number;
+                  unitCostMicroUSD: number;
+                  active: boolean;
+                }[];
+              };
+              period: {
+                _id: string;
+                entityId: string;
+                /** @enum {unknown} */
+                entityType: "user" | "org";
+                entityName: string;
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                invoice?:
+                  | {
+                      /** @constant */
+                      type: "stripe";
+                      id: string;
+                      amountDueCents: number;
+                      totalCents: number;
+                      /** @enum {unknown} */
+                      status:
+                        | "draft"
+                        | "open"
+                        | "paid"
+                        | "uncollectible"
+                        | "void"
+                        | "unpaid";
+                      /** Format: date-time */
+                      dueDate: string;
+                      /** @enum {unknown} */
+                      collectionMethod?:
+                        | "charge_automatically"
+                        | "send_invoice";
+                    }
+                  | {
+                      /** @constant */
+                      type: "no-invoice";
+                      /** @constant */
+                      id: "no-invoice";
+                    };
+                charges?: {
+                  _id: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  dueDate: string;
+                  usageAtChargeTimeMicroUSD: number;
+                  amountCents: number;
+                  /** @enum {unknown} */
+                  billedThrough: "stripe-payment-intent";
+                  paymentIntentId: string;
+                  /** @enum {unknown} */
+                  paymentIntentStatus:
+                    | "canceled"
+                    | "processing"
+                    | "requires_action"
+                    | "requires_capture"
+                    | "requires_confirmation"
+                    | "requires_payment_method"
+                    | "succeeded";
+                }[];
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/organizations/{name}/billing/usage/live": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get live usage for org */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          name: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/settings/billing/usage": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get user usage for a given period */
+    get: {
+      parameters: {
+        query?: {
+          periodId?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Usage and period information */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              usage: {
+                [key: string]: {
+                  entityId: string;
+                  label: string | null;
+                  /** @enum {unknown} */
+                  product:
+                    | "hf/repository-storage"
+                    | "spaces/cpu-basic/minutes"
+                    | "spaces/zero-a10g/minutes"
+                    | "spaces/cpu-upgrade/minutes"
+                    | "spaces/cpu-performance/minutes"
+                    | "spaces/cpu-xl/minutes"
+                    | "spaces/t4-small/minutes"
+                    | "spaces/t4-medium/minutes"
+                    | "spaces/a10g-small/minutes"
+                    | "spaces/a10g-large/minutes"
+                    | "spaces/a10g-largex2/minutes"
+                    | "spaces/a10g-largex4/minutes"
+                    | "spaces/a100-large/minutes"
+                    | "spaces/h100/minutes"
+                    | "spaces/h100x8/minutes"
+                    | "spaces/l4x1/minutes"
+                    | "spaces/l4x4/minutes"
+                    | "spaces/l40sx1/minutes"
+                    | "spaces/l40sx4/minutes"
+                    | "spaces/l40sx8/minutes"
+                    | "spaces/v5e-2x4/minutes"
+                    | "spaces/v5e-2x2/minutes"
+                    | "spaces/v5e-1x1/minutes"
+                    | "spaces/storage-small/minutes"
+                    | "spaces/storage-medium/minutes"
+                    | "spaces/storage-large/minutes"
+                    | "endpoints/azure/intel-xeon/x1"
+                    | "endpoints/azure/intel-xeon/x2"
+                    | "endpoints/azure/intel-xeon/x4"
+                    | "endpoints/azure/intel-xeon/x8"
+                    | "endpoints/aws/intel-icl/x1"
+                    | "endpoints/aws/intel-icl/x2"
+                    | "endpoints/aws/intel-icl/x4"
+                    | "endpoints/aws/intel-icl/x8"
+                    | "endpoints/aws/intel-spr/x1"
+                    | "endpoints/aws/intel-spr/x2"
+                    | "endpoints/aws/intel-spr/x4"
+                    | "endpoints/aws/intel-spr/x8"
+                    | "endpoints/aws/intel-spr/x16"
+                    | "endpoints/aws/nvidia-t4/x1"
+                    | "endpoints/aws/nvidia-t4/x4"
+                    | "endpoints/aws/nvidia-l4/x1"
+                    | "endpoints/aws/nvidia-l4/x4"
+                    | "endpoints/aws/nvidia-l40s/x1"
+                    | "endpoints/aws/nvidia-l40s/x4"
+                    | "endpoints/aws/nvidia-l40s/x8"
+                    | "endpoints/aws/nvidia-a10g/x1"
+                    | "endpoints/aws/nvidia-a10g/x4"
+                    | "endpoints/aws/nvidia-a100/x1"
+                    | "endpoints/aws/nvidia-a100/x2"
+                    | "endpoints/aws/nvidia-a100/x4"
+                    | "endpoints/aws/nvidia-a100/x8"
+                    | "endpoints/aws/nvidia-h200/x1"
+                    | "endpoints/aws/nvidia-h200/x2"
+                    | "endpoints/aws/nvidia-h200/x4"
+                    | "endpoints/aws/nvidia-h200/x8"
+                    | "endpoints/aws/inf2/x1"
+                    | "endpoints/aws/inf2/x12"
+                    | "endpoints/gcp/intel-spr/x1"
+                    | "endpoints/gcp/intel-spr/x2"
+                    | "endpoints/gcp/intel-spr/x4"
+                    | "endpoints/gcp/intel-spr/x8"
+                    | "endpoints/gcp/nvidia-t4/x1"
+                    | "endpoints/gcp/nvidia-l4/x1"
+                    | "endpoints/gcp/nvidia-l4/x4"
+                    | "endpoints/gcp/nvidia-a100/x1"
+                    | "endpoints/gcp/nvidia-a100/x2"
+                    | "endpoints/gcp/nvidia-a100/x4"
+                    | "endpoints/gcp/nvidia-a100/x8"
+                    | "endpoints/gcp/nvidia-h100/x1"
+                    | "endpoints/gcp/nvidia-h100/x2"
+                    | "endpoints/gcp/nvidia-h100/x4"
+                    | "endpoints/gcp/nvidia-h100/x8"
+                    | "endpoints/gcp/v5e/1x1"
+                    | "endpoints/gcp/v5e/2x2"
+                    | "endpoints/gcp/v5e/2x4";
+                  quantity: number;
+                  /** Format: date-time */
+                  startedAt?: string;
+                  stoppedAt?: string | null;
+                  freeGrant?: boolean;
+                  productPrettyName: string;
+                  unitLabel: string | null;
+                  totalCostMicroUSD: number;
+                  unitCostMicroUSD: number;
+                  active: boolean;
+                }[];
+              };
+              period: {
+                _id: string;
+                entityId: string;
+                /** @enum {unknown} */
+                entityType: "user" | "org";
+                entityName: string;
+                /** Format: date-time */
+                periodStart: string;
+                /** Format: date-time */
+                periodEnd: string;
+                invoice?:
+                  | {
+                      /** @constant */
+                      type: "stripe";
+                      id: string;
+                      amountDueCents: number;
+                      totalCents: number;
+                      /** @enum {unknown} */
+                      status:
+                        | "draft"
+                        | "open"
+                        | "paid"
+                        | "uncollectible"
+                        | "void"
+                        | "unpaid";
+                      /** Format: date-time */
+                      dueDate: string;
+                      /** @enum {unknown} */
+                      collectionMethod?:
+                        | "charge_automatically"
+                        | "send_invoice";
+                    }
+                  | {
+                      /** @constant */
+                      type: "no-invoice";
+                      /** @constant */
+                      id: "no-invoice";
+                    };
+                charges?: {
+                  _id: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  dueDate: string;
+                  usageAtChargeTimeMicroUSD: number;
+                  amountCents: number;
+                  /** @enum {unknown} */
+                  billedThrough: "stripe-payment-intent";
+                  paymentIntentId: string;
+                  /** @enum {unknown} */
+                  paymentIntentStatus:
+                    | "canceled"
+                    | "processing"
+                    | "requires_action"
+                    | "requires_capture"
+                    | "requires_confirmation"
+                    | "requires_payment_method"
+                    | "succeeded";
+                }[];
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/settings/billing/usage/live": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get live usage for user */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/users/{username}/billing/usage/live": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get live usage for user */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          username: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/models/{namespace}/{repo}/lfs-files": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List Xet/LFS files for a repo */
+    get: {
+      parameters: {
+        query?: {
+          cursor?: string;
+          limit?: number;
+          xet?: unknown;
+        };
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description List of Xet/LFS files for the repo */
+        200: {
+          headers: {
+            /** @description Link header for pagination, can contain a `rel="next"` link */
+            Link?: string;
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              pusher?: {
+                avatarUrl: string;
+                fullname: string;
+                name: string;
+                isHf: boolean;
+                isHfAdmin: boolean;
+                isMod: boolean;
+                followerCount?: number;
+                /** @constant */
+                type: "user";
+                isPro: boolean;
+                _id: string;
+                isUserFollowing?: boolean;
+              };
+              ref?: string;
+              fileOid: string;
+              oid: string;
+              size: number;
+              /** Format: date-time */
+              pushedAt: string;
+              /** @description Potential filename of the LFS file */
+              filename?: string;
+              xetHash?: string;
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/datasets/{namespace}/{repo}/lfs-files": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List Xet/LFS files for a repo */
+    get: {
+      parameters: {
+        query?: {
+          cursor?: string;
+          limit?: number;
+          xet?: unknown;
+        };
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description List of Xet/LFS files for the repo */
+        200: {
+          headers: {
+            /** @description Link header for pagination, can contain a `rel="next"` link */
+            Link?: string;
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              pusher?: {
+                avatarUrl: string;
+                fullname: string;
+                name: string;
+                isHf: boolean;
+                isHfAdmin: boolean;
+                isMod: boolean;
+                followerCount?: number;
+                /** @constant */
+                type: "user";
+                isPro: boolean;
+                _id: string;
+                isUserFollowing?: boolean;
+              };
+              ref?: string;
+              fileOid: string;
+              oid: string;
+              size: number;
+              /** Format: date-time */
+              pushedAt: string;
+              /** @description Potential filename of the LFS file */
+              filename?: string;
+              xetHash?: string;
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/spaces/{namespace}/{repo}/lfs-files": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List Xet/LFS files for a repo */
+    get: {
+      parameters: {
+        query?: {
+          cursor?: string;
+          limit?: number;
+          xet?: unknown;
+        };
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description List of Xet/LFS files for the repo */
+        200: {
+          headers: {
+            /** @description Link header for pagination, can contain a `rel="next"` link */
+            Link?: string;
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              pusher?: {
+                avatarUrl: string;
+                fullname: string;
+                name: string;
+                isHf: boolean;
+                isHfAdmin: boolean;
+                isMod: boolean;
+                followerCount?: number;
+                /** @constant */
+                type: "user";
+                isPro: boolean;
+                _id: string;
+                isUserFollowing?: boolean;
+              };
+              ref?: string;
+              fileOid: string;
+              oid: string;
+              size: number;
+              /** Format: date-time */
+              pushedAt: string;
+              /** @description Potential filename of the LFS file */
+              filename?: string;
+              xetHash?: string;
+            }[];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get discussions for a repo */
+    get: {
+      parameters: {
+        query?: {
+          p?: number;
+          type?: "all" | "discussion" | "pull_request";
+          status?: "all" | "open" | "closed";
+          author?: string;
+          search?: string;
+          sort?: "recently-created" | "trending" | "reactions";
+        };
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description List of discussions */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              discussions: {
+                num: number;
+                author?:
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    };
+                repo: components["schemas"]["RepoId"];
+                title: string;
+                /** Format: date-time */
+                createdAt: string;
+                topReactions: {
+                  /** @enum {unknown} */
+                  reaction:
+                    | "🔥"
+                    | "🚀"
+                    | "👀"
+                    | "❤️"
+                    | "🤗"
+                    | "😎"
+                    | "➕"
+                    | "🧠"
+                    | "👍"
+                    | "🤝"
+                    | "😔"
+                    | "🤯";
+                  count: number;
+                }[];
+                /** @enum {unknown} */
+                status: "draft" | "open" | "closed" | "merged";
+                isPullRequest: boolean;
+                numComments: number;
+                numReactionUsers: number;
+                pinned: boolean;
+                repoOwner?: {
+                  name: string;
+                  /** @enum {unknown} */
+                  type: "org" | "user";
+                  isParticipating: boolean;
+                  isDiscussionAuthor: boolean;
+                };
+              }[];
+              count: number;
+              start: number;
+              /** @description Number of closed discussions on the first page */
+              numClosedDiscussions?: number;
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    /** Create a new discussion */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            title: string;
+            description: string;
+            pullRequest?: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description Discussion creation response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              url: string;
+              num: number;
+              pullRequest: boolean;
+              references?: {
+                base: string;
+                mergeCommitId?: string;
+              };
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get discussion details */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Discussion details */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": (
+              | {
+                  _id: string;
+                  num?: number;
+                  author?:
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
                         name: string;
-                        description?: string;
-                        /** @default [] */
-                        users?: {
-                            user: string;
-                            /** @enum {unknown} */
-                            role: "admin" | "write" | "contributor" | "read";
-                        }[];
-                        /** @default [] */
-                        repos?: components["schemas"]["RepoId"][];
-                        autoJoin?: {
-                            /** @constant */
-                            enabled: true;
-                            /** @enum {unknown} */
-                            role: "admin" | "write" | "contributor" | "read";
-                        } | {
-                            /** @constant */
-                            enabled: false;
-                        };
-                    };
-                };
-            };
-            responses: {
-                /** @description The created resource group */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            name: string;
-                            description?: string | null;
-                            autoJoin?: {
-                                /** @constant */
-                                enabled: true;
-                                /** @enum {unknown} */
-                                role: "admin" | "write" | "contributor" | "read";
-                            } | {
-                                /** @constant */
-                                enabled: false;
-                            };
-                            users: {
-                                /** @constant */
-                                type: "user";
-                                _id: string;
-                                fullname: string;
-                                name: string;
-                                avatarUrl: string;
-                                /** @enum {unknown} */
-                                role: "admin" | "write" | "contributor" | "read";
-                                addedBy?: string;
-                            }[];
-                            repos: {
-                                name: string;
-                                /** @enum {unknown} */
-                                type: "dataset" | "model" | "space";
-                                addedBy?: string;
-                                private: boolean;
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/organizations/{name}/avatar": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieve organization avatar
-         * @description This endpoint returns a JSON with the avatar URL for the organization.
-         *
-         *     If called with the `Sec-Fetch-Dest: image` header, it instead redirects to the avatar URL
-         */
-        get: {
-            parameters: {
-                query?: {
-                    redirect?: unknown;
-                };
-                header?: never;
-                path: {
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "org";
+                        isEnterprise: boolean;
+                        isUserFollowing?: boolean;
+                      }
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
+                        name: string;
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "user";
+                        isPro: boolean;
+                        _id: string;
+                        isUserFollowing?: boolean;
+                      };
+                  org?: {
+                    avatarUrl: string;
+                    email?: string;
+                    fullname: string;
                     name: string;
-                };
-                cookie?: never;
+                    /** @constant */
+                    type: "org";
+                    isHf: boolean;
+                    isEnterprise?: boolean;
+                    /** @enum {unknown} */
+                    plan?: "team" | "enterprise" | "plus";
+                    details?: string;
+                    requiresSSO?: boolean;
+                  };
+                  repo?: components["schemas"]["RepoId"];
+                  title: string;
+                  /** Format: date-time */
+                  createdAt?: string;
+                  /** @enum {unknown} */
+                  status: "draft" | "open" | "closed" | "merged";
+                  events: (
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "comment";
+                        data: {
+                          edited: boolean;
+                          hidden: boolean;
+                          hiddenBy?: string;
+                          /** @enum {unknown} */
+                          hiddenReason?:
+                            | "Spam"
+                            | "Abuse"
+                            | "Graphic Content"
+                            | "Resolved"
+                            | "Off-Topic";
+                          latest: {
+                            raw: string;
+                            html: string;
+                            /** Format: date-time */
+                            updatedAt: string;
+                            author?:
+                              | {
+                                  avatarUrl: string;
+                                  fullname: string;
+                                  name: string;
+                                  isHf: boolean;
+                                  isHfAdmin: boolean;
+                                  isMod: boolean;
+                                  followerCount?: number;
+                                  /** @constant */
+                                  type: "org";
+                                  isEnterprise: boolean;
+                                  isUserFollowing?: boolean;
+                                }
+                              | {
+                                  avatarUrl: string;
+                                  fullname: string;
+                                  name: string;
+                                  isHf: boolean;
+                                  isHfAdmin: boolean;
+                                  isMod: boolean;
+                                  followerCount?: number;
+                                  /** @constant */
+                                  type: "user";
+                                  isPro: boolean;
+                                  _id: string;
+                                  isUserFollowing?: boolean;
+                                };
+                          };
+                          numEdits: number;
+                          editors: string[];
+                          editorAvatarUrls: string[];
+                          reactions: {
+                            /** @enum {unknown} */
+                            reaction:
+                              | "🔥"
+                              | "🚀"
+                              | "👀"
+                              | "❤️"
+                              | "🤗"
+                              | "😎"
+                              | "➕"
+                              | "🧠"
+                              | "👍"
+                              | "🤝"
+                              | "😔"
+                              | "🤯";
+                            users: string[];
+                            count: number;
+                          }[];
+                          identifiedLanguage?: {
+                            language: string;
+                            probability: number;
+                          };
+                          relatedEventId?: string;
+                          isReport?: boolean;
+                          parentCommentId?: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "status-change";
+                        data: {
+                          /** @enum {unknown} */
+                          status: "draft" | "open" | "closed" | "merged";
+                          reason?: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "commit";
+                        data: {
+                          subject: string;
+                          oid: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "title-change";
+                        data: {
+                          from: string;
+                          to: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "pinning-change";
+                        data: {
+                          pinned: boolean;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "locking-change";
+                        data: {
+                          locked: boolean;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "report-status-change";
+                        data: {
+                          report: boolean;
+                        };
+                      }
+                  )[];
+                  pinned: boolean;
+                  locked: boolean;
+                  /** @enum {unknown} */
+                  collection:
+                    | "discussions"
+                    | "paper_discussions"
+                    | "social_posts"
+                    | "canonical_blogs"
+                    | "community_blogs";
+                  /** @constant */
+                  isPullRequest: false;
+                  isReport: boolean;
+                }
+              | {
+                  _id: string;
+                  num?: number;
+                  author?:
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
+                        name: string;
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "org";
+                        isEnterprise: boolean;
+                        isUserFollowing?: boolean;
+                      }
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
+                        name: string;
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "user";
+                        isPro: boolean;
+                        _id: string;
+                        isUserFollowing?: boolean;
+                      };
+                  org?: {
+                    avatarUrl: string;
+                    email?: string;
+                    fullname: string;
+                    name: string;
+                    /** @constant */
+                    type: "org";
+                    isHf: boolean;
+                    isEnterprise?: boolean;
+                    /** @enum {unknown} */
+                    plan?: "team" | "enterprise" | "plus";
+                    details?: string;
+                    requiresSSO?: boolean;
+                  };
+                  repo?: components["schemas"]["RepoId"];
+                  title: string;
+                  /** Format: date-time */
+                  createdAt?: string;
+                  /** @enum {unknown} */
+                  status: "draft" | "open" | "closed" | "merged";
+                  events: (
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "comment";
+                        data: {
+                          edited: boolean;
+                          hidden: boolean;
+                          hiddenBy?: string;
+                          /** @enum {unknown} */
+                          hiddenReason?:
+                            | "Spam"
+                            | "Abuse"
+                            | "Graphic Content"
+                            | "Resolved"
+                            | "Off-Topic";
+                          latest: {
+                            raw: string;
+                            html: string;
+                            /** Format: date-time */
+                            updatedAt: string;
+                            author?:
+                              | {
+                                  avatarUrl: string;
+                                  fullname: string;
+                                  name: string;
+                                  isHf: boolean;
+                                  isHfAdmin: boolean;
+                                  isMod: boolean;
+                                  followerCount?: number;
+                                  /** @constant */
+                                  type: "org";
+                                  isEnterprise: boolean;
+                                  isUserFollowing?: boolean;
+                                }
+                              | {
+                                  avatarUrl: string;
+                                  fullname: string;
+                                  name: string;
+                                  isHf: boolean;
+                                  isHfAdmin: boolean;
+                                  isMod: boolean;
+                                  followerCount?: number;
+                                  /** @constant */
+                                  type: "user";
+                                  isPro: boolean;
+                                  _id: string;
+                                  isUserFollowing?: boolean;
+                                };
+                          };
+                          numEdits: number;
+                          editors: string[];
+                          editorAvatarUrls: string[];
+                          reactions: {
+                            /** @enum {unknown} */
+                            reaction:
+                              | "🔥"
+                              | "🚀"
+                              | "👀"
+                              | "❤️"
+                              | "🤗"
+                              | "😎"
+                              | "➕"
+                              | "🧠"
+                              | "👍"
+                              | "🤝"
+                              | "😔"
+                              | "🤯";
+                            users: string[];
+                            count: number;
+                          }[];
+                          identifiedLanguage?: {
+                            language: string;
+                            probability: number;
+                          };
+                          relatedEventId?: string;
+                          isReport?: boolean;
+                          parentCommentId?: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "status-change";
+                        data: {
+                          /** @enum {unknown} */
+                          status: "draft" | "open" | "closed" | "merged";
+                          reason?: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "commit";
+                        data: {
+                          subject: string;
+                          oid: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "title-change";
+                        data: {
+                          from: string;
+                          to: string;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "pinning-change";
+                        data: {
+                          pinned: boolean;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "locking-change";
+                        data: {
+                          locked: boolean;
+                        };
+                      }
+                    | {
+                        id: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        author?: (
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            }
+                        ) & {
+                          isOwner?: boolean;
+                          isOrgMember?: boolean;
+                          oauthApp?: {
+                            imageUrl?: string;
+                            imageData?: {
+                              emoji: string;
+                              colorFrom: string;
+                              colorTo: string;
+                            };
+                            url?: string;
+                            name: string;
+                          };
+                        };
+                        /** @constant */
+                        type: "report-status-change";
+                        data: {
+                          report: boolean;
+                        };
+                      }
+                  )[];
+                  pinned: boolean;
+                  locked: boolean;
+                  /** @constant */
+                  collection: "discussions";
+                  /** @constant */
+                  isPullRequest: true;
+                  /** @description The list of files with conflicts. `true` means there are conflicts but we cannot list them. */
+                  filesWithConflicts: string[] | true;
+                  changes: {
+                    base: string;
+                    mergeCommitId?: string;
+                  };
+                }
+            ) & {
+              diffUrl?: string;
             };
-            requestBody?: never;
-            responses: {
-                /** @description Avatar URL */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    /** Delete a discussion */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}/comment": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
                     };
-                    content: {
-                        "application/json": {
-                            /** Format: uri */
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}/status": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Change the status of a discussion */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            /** @enum {unknown} */
+            status: "open" | "closed";
+            comment?: string;
+          };
+        };
+      };
+      responses: {
+        /** @description New status event */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newStatus: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "status-change";
+                data: {
+                  /** @enum {unknown} */
+                  status: "draft" | "open" | "closed" | "merged";
+                  reason?: string;
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}/title": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Change the title of a discussion */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            title: string;
+          };
+        };
+      };
+      responses: {
+        /** @description New title event */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newTitle: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "title-change";
+                data: {
+                  from: string;
+                  to: string;
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}/pin": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Pin a discussion */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            pinned: boolean;
+          };
+        };
+      };
+      responses: never;
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/{repoType}/{namespace}/{repo}/discussions/{num}/merge": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Merge a pull request */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          repoType: "models" | "spaces" | "datasets";
+          namespace: string;
+          repo: string;
+          num: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment?: string;
+          };
+        };
+      };
+      responses: never;
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/models-tags-by-type": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get all possible tags used for models
+     * @description Get all possible tags used for models, grouped by tag type. Optionally restrict to only one tag type
+     */
+    get: {
+      parameters: {
+        query?: {
+          type?:
+            | "pipeline_tag"
+            | "library"
+            | "dataset"
+            | "language"
+            | "license"
+            | "arxiv"
+            | "doi"
+            | "region"
+            | "other";
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The tags, grouped by tag type */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              [key: string]: {
+                id: string;
+                label: string;
+                /** @enum {unknown} */
+                type:
+                  | "pipeline_tag"
+                  | "library"
+                  | "dataset"
+                  | "language"
+                  | "license"
+                  | "arxiv"
+                  | "doi"
+                  | "region"
+                  | "other";
+                subType?: string;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/datasets-tags-by-type": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get all possible tags used for datasets
+     * @description Get all possible tags used for datasets, grouped by tag type. Optionally restrict to only one tag type
+     */
+    get: {
+      parameters: {
+        query?: {
+          type?:
+            | "task_categories"
+            | "size_categories"
+            | "modality"
+            | "format"
+            | "library"
+            | "language"
+            | "license"
+            | "arxiv"
+            | "doi"
+            | "region"
+            | "other"
+            | "task_ids"
+            | "annotations_creators"
+            | "language_creators"
+            | "multilinguality"
+            | "source_datasets"
+            | "benchmark";
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The tags, grouped by tag type */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              [key: string]: {
+                id: string;
+                label: string;
+                /** @enum {unknown} */
+                type:
+                  | "task_categories"
+                  | "size_categories"
+                  | "modality"
+                  | "format"
+                  | "library"
+                  | "language"
+                  | "license"
+                  | "arxiv"
+                  | "doi"
+                  | "region"
+                  | "other"
+                  | "task_ids"
+                  | "annotations_creators"
+                  | "language_creators"
+                  | "multilinguality"
+                  | "source_datasets"
+                  | "benchmark";
+                subType?: string;
+              }[];
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/repos/create": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new repository */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            name: string;
+            /**
+             * @description The license of the repository. You can select 'Other' if your license is not in the list
+             * @enum {unknown}
+             */
+            license?:
+              | "apache-2.0"
+              | "mit"
+              | "openrail"
+              | "bigscience-openrail-m"
+              | "creativeml-openrail-m"
+              | "bigscience-bloom-rail-1.0"
+              | "bigcode-openrail-m"
+              | "afl-3.0"
+              | "artistic-2.0"
+              | "bsl-1.0"
+              | "bsd"
+              | "bsd-2-clause"
+              | "bsd-3-clause"
+              | "bsd-3-clause-clear"
+              | "c-uda"
+              | "cc"
+              | "cc0-1.0"
+              | "cc-by-2.0"
+              | "cc-by-2.5"
+              | "cc-by-3.0"
+              | "cc-by-4.0"
+              | "cc-by-sa-3.0"
+              | "cc-by-sa-4.0"
+              | "cc-by-nc-2.0"
+              | "cc-by-nc-3.0"
+              | "cc-by-nc-4.0"
+              | "cc-by-nd-4.0"
+              | "cc-by-nc-nd-3.0"
+              | "cc-by-nc-nd-4.0"
+              | "cc-by-nc-sa-2.0"
+              | "cc-by-nc-sa-3.0"
+              | "cc-by-nc-sa-4.0"
+              | "cdla-sharing-1.0"
+              | "cdla-permissive-1.0"
+              | "cdla-permissive-2.0"
+              | "wtfpl"
+              | "ecl-2.0"
+              | "epl-1.0"
+              | "epl-2.0"
+              | "etalab-2.0"
+              | "eupl-1.1"
+              | "eupl-1.2"
+              | "agpl-3.0"
+              | "gfdl"
+              | "gpl"
+              | "gpl-2.0"
+              | "gpl-3.0"
+              | "lgpl"
+              | "lgpl-2.1"
+              | "lgpl-3.0"
+              | "isc"
+              | "intel-research"
+              | "lppl-1.3c"
+              | "ms-pl"
+              | "apple-ascl"
+              | "apple-amlr"
+              | "mpl-2.0"
+              | "odc-by"
+              | "odbl"
+              | "openrail++"
+              | "osl-3.0"
+              | "postgresql"
+              | "ofl-1.1"
+              | "ncsa"
+              | "unlicense"
+              | "zlib"
+              | "pddl"
+              | "lgpl-lr"
+              | "deepfloyd-if-license"
+              | "fair-noncommercial-research-license"
+              | "llama2"
+              | "llama3"
+              | "llama3.1"
+              | "llama3.2"
+              | "llama3.3"
+              | "llama4"
+              | "gemma"
+              | "unknown"
+              | "other";
+            license_name?: string & unknown;
+            license_link?: "LICENSE" | "LICENSE.md" | string;
+            /** @description Repository visibility. Defaults to public */
+            private?: boolean | null;
+            resourceGroupId?: string | null;
+            files?: {
+              content: string;
+              path: string;
+              /** @enum {unknown} */
+              encoding: "utf-8" | "base64";
+            }[];
+          } & (
+            | {
+                /** @constant */
+                type: "dataset";
+              }
+            | {
+                /**
+                 * @default model
+                 * @constant
+                 */
+                type?: "model";
+              }
+            | {
+                /** @constant */
+                type: "space";
+                template?: string;
+                short_description?: string;
+                /**
+                 * @description The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio.
+                 * @enum {unknown}
+                 */
+                hardware?:
+                  | "cpu-basic"
+                  | "cpu-upgrade"
+                  | "cpu-performance"
+                  | "cpu-xl"
+                  | "zero-a10g"
+                  | "t4-small"
+                  | "t4-medium"
+                  | "l4x1"
+                  | "l4x4"
+                  | "l40sx1"
+                  | "l40sx4"
+                  | "l40sx8"
+                  | "a10g-small"
+                  | "a10g-large"
+                  | "a10g-largex2"
+                  | "a10g-largex4"
+                  | "a100-large"
+                  | "h100"
+                  | "h100x8"
+                  | "zerogpu";
+                storageTier?: ("small" | "medium" | "large") | null;
+                /** @default [] */
+                secrets?: {
+                  key: string;
+                  description?: string;
+                  value: string;
+                }[];
+                /** @default [] */
+                variables?: {
+                  key: string;
+                  description?: string;
+                  value: string;
+                }[];
+                sleepTimeSeconds?: number | -1;
+                /** @enum {unknown} */
+                sdk: "gradio" | "docker" | "static" | "streamlit";
+                sdkVersion?: string | null;
+                devModeEnabled?: boolean;
+              }
+          );
+        };
+      };
+      responses: {
+        /** @description Repository created, url is given */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              url: string;
+              name: string;
+              id: string;
+            };
+          };
+        };
+        409: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              url: string;
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/repos/move": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Move or rename a repo
+     * @description Move or rename a repo.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            fromRepo: string;
+            toRepo: string;
+            /**
+             * @default model
+             * @enum {unknown}
+             */
+            type?: "dataset" | "model" | "space";
+          };
+        };
+      };
+      responses: never;
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/spaces/{namespace}/{repo}/logs/{logType}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream logs for a Space
+     * @description Get logs for a specific Space in a streaming fashion, with SSE protocol
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+          logType: "build" | "run";
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/spaces/{namespace}/{repo}/events": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream events for a Space
+     * @description Get status updates for a specific Space in a streaming fashion, with SSE protocol
+     */
+    get: {
+      parameters: {
+        query?: {
+          session_uuid?: string;
+        };
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/spaces/{namespace}/{repo}/metrics": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream metrics for a Space
+     * @description Get live metrics for a specific Space in a streaming fashion, with SSE protocol, such as current Zero-GPU usage
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          repo: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/papers/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Perform a hybrid semantic / full-text-search on papers */
+    get: {
+      parameters: {
+        query?: {
+          q?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/papers/{paperId}/comment": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          paperId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/papers/{paperId}/comment/{commentId}/reply": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          paperId: string;
+          commentId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/posts/{username}/{postSlug}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** Delete a discussion */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          username: string;
+          postSlug: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/posts/{username}/{postSlug}/comment": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          username: string;
+          postSlug: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/posts/{username}/{postSlug}/comment/{commentId}/reply": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a new comment */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          username: string;
+          postSlug: string;
+          commentId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            comment: string;
+          };
+        };
+      };
+      responses: {
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              newMessage: {
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                author?: (
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    }
+                ) & {
+                  isOwner?: boolean;
+                  isOrgMember?: boolean;
+                  oauthApp?: {
+                    imageUrl?: string;
+                    imageData?: {
+                      emoji: string;
+                      colorFrom: string;
+                      colorTo: string;
+                    };
+                    url?: string;
+                    name: string;
+                  };
+                };
+                /** @constant */
+                type: "comment";
+                data: {
+                  edited: boolean;
+                  hidden: boolean;
+                  hiddenBy?: string;
+                  /** @enum {unknown} */
+                  hiddenReason?:
+                    | "Spam"
+                    | "Abuse"
+                    | "Graphic Content"
+                    | "Resolved"
+                    | "Off-Topic";
+                  latest: {
+                    raw: string;
+                    html: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                    author?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                  };
+                  numEdits: number;
+                  editors: string[];
+                  editorAvatarUrls: string[];
+                  reactions: {
+                    /** @enum {unknown} */
+                    reaction:
+                      | "🔥"
+                      | "🚀"
+                      | "👀"
+                      | "❤️"
+                      | "🤗"
+                      | "😎"
+                      | "➕"
+                      | "🧠"
+                      | "👍"
+                      | "🤝"
+                      | "😔"
+                      | "🤯";
+                    users: string[];
+                    count: number;
+                  }[];
+                  identifiedLanguage?: {
+                    language: string;
+                    probability: number;
+                  };
+                  relatedEventId?: string;
+                  isReport?: boolean;
+                  parentCommentId?: string;
+                };
+              };
+            };
+            description: unknown;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/collections/{namespace}/{slug}-{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get a collection */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The collection data */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              slug: string;
+              title: string;
+              description?: string;
+              /** Format: date-time */
+              lastUpdated: string;
+              gating:
+                | true
+                | (
+                    | false
+                    | {
+                        /** @constant */
+                        mode: "auto";
+                      }
+                    | {
+                        /** @constant */
+                        mode: "manual";
+                        notifications: {
+                          /** @enum {unknown} */
+                          mode: "bulk" | "real-time";
+                          email?: string;
+                        };
+                      }
+                  );
+              owner:
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "org";
+                    isEnterprise: boolean;
+                    isUserFollowing?: boolean;
+                  }
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "user";
+                    isPro: boolean;
+                    _id: string;
+                    isUserFollowing?: boolean;
+                  };
+              position: number;
+              /** @enum {unknown} */
+              theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
+              private: boolean;
+              upvotes: number;
+              shareUrl: string;
+              isUpvotedByUser: boolean;
+              items: ({
+                _id: string;
+                note?: {
+                  html: string;
+                  text: string;
+                };
+                gallery?: string[];
+                position: number;
+              } & (
+                | {
+                    author: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    likes: number;
+                    datasetsServerInfo?: {
+                      /** @enum {unknown} */
+                      viewer: "preview" | "viewer-partial" | "viewer";
+                      numRows: number | null;
+                      libraries: (
+                        | "mlcroissant"
+                        | "webdataset"
+                        | "datasets"
+                        | "pandas"
+                        | "dask"
+                        | "distilabel"
+                        | "fiftyone"
+                        | "argilla"
+                        | "polars"
+                        | "duckdb"
+                      )[];
+                      formats: (
+                        | "json"
+                        | "csv"
+                        | "parquet"
+                        | "imagefolder"
+                        | "audiofolder"
+                        | "webdataset"
+                        | "text"
+                        | "arrow"
+                      )[];
+                      modalities: (
+                        | "3d"
+                        | "audio"
+                        | "document"
+                        | "geospatial"
+                        | "image"
+                        | "tabular"
+                        | "text"
+                        | "timeseries"
+                        | "video"
+                      )[];
+                    };
+                    private: boolean;
+                    /** @constant */
+                    repoType: "dataset";
+                    downloads: number;
+                    gated: false | ("auto" | "manual");
+                    /** Format: date-time */
+                    lastModified: string;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    /** @constant */
+                    type: "dataset";
+                  }
+                | {
+                    author: string;
+                    downloads: number;
+                    id: string;
+                    availableInferenceProviders: {
+                      /** @enum {unknown} */
+                      provider:
+                        | "black-forest-labs"
+                        | "cerebras"
+                        | "cohere"
+                        | "fal-ai"
+                        | "featherless-ai"
+                        | "fireworks-ai"
+                        | "groq"
+                        | "hf-inference"
+                        | "hyperbolic"
+                        | "nebius"
+                        | "novita"
+                        | "nscale"
+                        | "openai"
+                        | "ovhcloud"
+                        | "replicate"
+                        | "sambanova"
+                        | "together";
+                      /** @enum {unknown} */
+                      providerStatus: "live" | "staging" | "error";
+                      /** @enum {unknown} */
+                      modelStatus: "live" | "staging" | "error";
+                      providerId: string;
+                      /** @enum {unknown} */
+                      task:
+                        | "text-classification"
+                        | "token-classification"
+                        | "table-question-answering"
+                        | "question-answering"
+                        | "zero-shot-classification"
+                        | "translation"
+                        | "summarization"
+                        | "feature-extraction"
+                        | "text-generation"
+                        | "text2text-generation"
+                        | "fill-mask"
+                        | "sentence-similarity"
+                        | "text-to-speech"
+                        | "text-to-audio"
+                        | "automatic-speech-recognition"
+                        | "audio-to-audio"
+                        | "audio-classification"
+                        | "audio-text-to-text"
+                        | "voice-activity-detection"
+                        | "depth-estimation"
+                        | "image-classification"
+                        | "object-detection"
+                        | "image-segmentation"
+                        | "text-to-image"
+                        | "image-to-text"
+                        | "image-to-image"
+                        | "image-to-video"
+                        | "unconditional-image-generation"
+                        | "video-classification"
+                        | "reinforcement-learning"
+                        | "robotics"
+                        | "tabular-classification"
+                        | "tabular-regression"
+                        | "tabular-to-text"
+                        | "table-to-text"
+                        | "multiple-choice"
+                        | "text-ranking"
+                        | "text-retrieval"
+                        | "time-series-forecasting"
+                        | "text-to-video"
+                        | "image-text-to-text"
+                        | "visual-question-answering"
+                        | "document-question-answering"
+                        | "zero-shot-image-classification"
+                        | "graph-ml"
+                        | "mask-generation"
+                        | "zero-shot-object-detection"
+                        | "text-to-3d"
+                        | "image-to-3d"
+                        | "image-feature-extraction"
+                        | "video-text-to-text"
+                        | "keypoint-detection"
+                        | "visual-document-retrieval"
+                        | "any-to-any"
+                        | "video-to-video"
+                        | "other"
+                        | "conversational";
+                      /** @constant */
+                      adapterType?: "lora";
+                      adapterWeightsPath?: string;
+                    }[];
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pipeline_tag?: string;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "model";
+                    gated: false | ("auto" | "manual");
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    numParameters?: number;
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    widgetOutputUrls?: string[];
+                    /** @constant */
+                    type: "model";
+                  }
+                | {
+                    author: string;
+                    colorFrom: string;
+                    colorTo: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    emoji: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pinned: boolean;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "space";
+                    title: string;
+                    /** @enum {unknown} */
+                    sdk?: "gradio" | "docker" | "static" | "streamlit";
+                    runtime: {
+                      /** @enum {unknown} */
+                      stage:
+                        | "NO_APP_FILE"
+                        | "CONFIG_ERROR"
+                        | "BUILDING"
+                        | "BUILD_ERROR"
+                        | "APP_STARTING"
+                        | "RUNNING"
+                        | "RUNNING_BUILDING"
+                        | "RUNNING_APP_STARTING"
+                        | "RUNTIME_ERROR"
+                        | "DELETING"
+                        | "STOPPED"
+                        | "PAUSED"
+                        | "SLEEPING";
+                      hardware: {
+                        current:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                        requested:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                      };
+                      storage: ("small" | "medium" | "large") | null;
+                      errorMessage?: string;
+                      gcTimeout?: number | null;
+                      replicas: {
+                        current?: number | null;
+                        requested: number | "auto";
+                      };
+                      devMode?: boolean;
+                      domains?: {
+                        domain: string;
+                        isCustom?: boolean | null;
+                        /** @enum {unknown} */
+                        stage: "READY" | "PENDING";
+                      }[];
+                      sha?: string;
+                    };
+                    originSpace?: {
+                      author:
+                        | {
                             avatarUrl: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/oauth/userinfo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get user info
-         * @description Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description User info */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @description ID of the user */
-                            sub: string;
-                            /** @description Full name of the user */
-                            name?: string;
-                            /** @description Username of the user */
-                            preferred_username?: string;
-                            /**
-                             * Format: uri
-                             * @description Profile URL of the user
-                             */
-                            profile?: string;
-                            /**
-                             * Format: uri
-                             * @description Avatar URL of the user
-                             */
-                            picture?: string;
-                            /**
-                             * Format: uri
-                             * @description Website of the user
-                             */
-                            website?: string;
-                            /** @description Email of the user */
-                            email?: string;
-                            /** @description Whether the email is verified */
-                            email_verified?: boolean;
-                            /** @description Whether the user is a Pro user */
-                            isPro: boolean;
-                            /** @description Whether the user has access to billing */
-                            canPay?: boolean;
-                            orgs: {
-                                /** @description ID of the organization */
-                                sub: string;
-                                /** @description Name of the organization */
-                                name: string;
-                                /**
-                                 * Format: uri
-                                 * @description Avatar URL of the organization
-                                 */
-                                picture: string;
-                                /** @description Username of the organization */
-                                preferred_username: string;
-                                isEnterprise: boolean;
-                                canPay?: boolean;
-                                /** @enum {unknown} */
-                                roleInOrg?: "admin" | "write" | "contributor" | "read";
-                                pendingSSO?: boolean;
-                                missingMFA?: boolean;
-                                resourceGroups?: {
-                                    sub: string;
-                                    name: string;
-                                    /** @enum {unknown} */
-                                    role: "admin" | "write" | "contributor" | "read";
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Get user info
-         * @description Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description User info */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @description ID of the user */
-                            sub: string;
-                            /** @description Full name of the user */
-                            name?: string;
-                            /** @description Username of the user */
-                            preferred_username?: string;
-                            /**
-                             * Format: uri
-                             * @description Profile URL of the user
-                             */
-                            profile?: string;
-                            /**
-                             * Format: uri
-                             * @description Avatar URL of the user
-                             */
-                            picture?: string;
-                            /**
-                             * Format: uri
-                             * @description Website of the user
-                             */
-                            website?: string;
-                            /** @description Email of the user */
-                            email?: string;
-                            /** @description Whether the email is verified */
-                            email_verified?: boolean;
-                            /** @description Whether the user is a Pro user */
-                            isPro: boolean;
-                            /** @description Whether the user has access to billing */
-                            canPay?: boolean;
-                            orgs: {
-                                /** @description ID of the organization */
-                                sub: string;
-                                /** @description Name of the organization */
-                                name: string;
-                                /**
-                                 * Format: uri
-                                 * @description Avatar URL of the organization
-                                 */
-                                picture: string;
-                                /** @description Username of the organization */
-                                preferred_username: string;
-                                isEnterprise: boolean;
-                                canPay?: boolean;
-                                /** @enum {unknown} */
-                                roleInOrg?: "admin" | "write" | "contributor" | "read";
-                                pendingSSO?: boolean;
-                                missingMFA?: boolean;
-                                resourceGroups?: {
-                                    sub: string;
-                                    name: string;
-                                    /** @enum {unknown} */
-                                    role: "admin" | "write" | "contributor" | "read";
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/blog/{slug}/comment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    slug: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/blog/{slug}/comment/{commentId}/reply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    slug: string;
-                    commentId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/blog/{namespace}/{slug}/comment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/blog/{namespace}/{slug}/comment/{commentId}/reply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    commentId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/docs/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Search any Hugging Face documentation */
-        get: {
-            parameters: {
-                query: {
-                    q: string;
-                    product?: "hub" | "transformers" | "diffusers" | "datasets" | "gradio" | "smolagents" | "huggingface_hub" | "huggingface.js" | "transformers.js" | "inference-providers" | "inference-endpoints" | "peft" | "accelerate" | "optimum" | "optimum-habana" | "optimum-neuron" | "optimum-intel" | "optimum-executorch" | "tokenizers" | "llm-course" | "mcp-course" | "agents-course" | "deep-rl-course" | "computer-vision-course" | "evaluate" | "tasks" | "dataset-viewer" | "trl" | "simulate" | "sagemaker" | "timm" | "safetensors" | "tgi" | "setfit" | "audio-course" | "lerobot" | "autotrain" | "tei" | "bitsandbytes" | "cookbook" | "sentence_transformers" | "ml-games-course" | "diffusion-course" | "ml-for-3d-course" | "chat-ui" | "leaderboards" | "lighteval" | "argilla" | "distilabel" | "microsoft-azure";
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Search results */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id: string;
-                            _vectors: {
-                                embeddings: number[];
-                            };
-                            heading1: string;
-                            text: string;
-                            product: string;
-                            source_page_url: string;
-                            source_page_title: string;
-                            heading2?: string;
-                            heading3?: string;
-                            heading4?: string;
-                            heading5?: string;
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/whoami-v2": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get information about the user and auth method used */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Auth information */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            auth: {
-                                type: string;
-                                accessToken?: {
-                                    displayName: string;
-                                    /** @enum {unknown} */
-                                    role: "read" | "write" | "god" | "fineGrained";
-                                    fineGrained?: {
-                                        scoped: {
-                                            entity: {
-                                                _id: string;
-                                                name?: string;
-                                                /** @enum {unknown} */
-                                                type: "dataset" | "model" | "space" | "collection" | "org" | "user" | "resource-group" | "oauth-app";
-                                            };
-                                            permissions: string[];
-                                        }[];
-                                        global?: ("discussion.write" | "post.write")[];
-                                        /** @description Allow access to all public gated repos to which the user has access */
-                                        canReadGatedRepos?: boolean;
-                                    };
-                                };
-                                /** Format: date-time */
-                                expiresAt?: string;
-                                resource?: {
-                                    sub: string;
-                                };
-                            };
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
                             /** @constant */
                             type: "user";
-                            id: string;
-                            name: string;
-                            fullname: string;
-                            email?: string | null;
-                            canPay?: boolean;
-                            avatarUrl: string;
-                            periodEnd?: number | null;
-                            emailVerified?: boolean;
                             isPro: boolean;
-                            orgs: {
-                                /** @constant */
-                                type: "org";
-                                id: string;
-                                name: string;
-                                fullname: string;
-                                email?: string | null;
-                                canPay?: boolean;
-                                avatarUrl: string;
-                                periodEnd?: number | null;
-                                isEnterprise: boolean;
-                                /** @enum {unknown} */
-                                roleInOrg?: "admin" | "write" | "contributor" | "read";
-                                pendingSSO?: boolean;
-                                missingMFA?: boolean;
-                                resourceGroups?: {
-                                    id: string;
-                                    name: string;
-                                    /** @enum {unknown} */
-                                    role: "admin" | "write" | "contributor" | "read";
-                                }[];
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/discussions/mark-as-read": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Mark discussions as read or unread
-         * @description Mark discussions as read or unread. If `applyToAll` is true, all notifications for the user matching the search parameters will be marked as read or unread.
-         */
-        post: {
-            parameters: {
-                query?: {
-                    p?: number;
-                    readStatus?: "all" | "unread";
-                    repoType?: "dataset" | "model" | "space";
-                    repoName?: string;
-                    postAuthor?: string;
-                    paperId?: string;
-                    articleId?: string;
-                    mention?: "all" | "participating" | "mentions";
-                    lastUpdate?: string;
-                    applyToAll?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** @default [] */
-                        discussionIds?: string[];
-                        /** @default true */
-                        read?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/organizations/{name}/billing/usage": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get org usage for a given period */
-        get: {
-            parameters: {
-                query?: {
-                    periodId?: string;
-                };
-                header?: never;
-                path: {
-                    name: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Usage and period information */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            usage: {
-                                [key: string]: {
-                                    entityId: string;
-                                    label: string | null;
-                                    /** @enum {unknown} */
-                                    product: "hf/repository-storage" | "spaces/cpu-basic/minutes" | "spaces/zero-a10g/minutes" | "spaces/cpu-upgrade/minutes" | "spaces/cpu-performance/minutes" | "spaces/cpu-xl/minutes" | "spaces/t4-small/minutes" | "spaces/t4-medium/minutes" | "spaces/a10g-small/minutes" | "spaces/a10g-large/minutes" | "spaces/a10g-largex2/minutes" | "spaces/a10g-largex4/minutes" | "spaces/a100-large/minutes" | "spaces/h100/minutes" | "spaces/h100x8/minutes" | "spaces/l4x1/minutes" | "spaces/l4x4/minutes" | "spaces/l40sx1/minutes" | "spaces/l40sx4/minutes" | "spaces/l40sx8/minutes" | "spaces/v5e-2x4/minutes" | "spaces/v5e-2x2/minutes" | "spaces/v5e-1x1/minutes" | "spaces/storage-small/minutes" | "spaces/storage-medium/minutes" | "spaces/storage-large/minutes" | "endpoints/azure/intel-xeon/x1" | "endpoints/azure/intel-xeon/x2" | "endpoints/azure/intel-xeon/x4" | "endpoints/azure/intel-xeon/x8" | "endpoints/aws/intel-icl/x1" | "endpoints/aws/intel-icl/x2" | "endpoints/aws/intel-icl/x4" | "endpoints/aws/intel-icl/x8" | "endpoints/aws/intel-spr/x1" | "endpoints/aws/intel-spr/x2" | "endpoints/aws/intel-spr/x4" | "endpoints/aws/intel-spr/x8" | "endpoints/aws/intel-spr/x16" | "endpoints/aws/nvidia-t4/x1" | "endpoints/aws/nvidia-t4/x4" | "endpoints/aws/nvidia-l4/x1" | "endpoints/aws/nvidia-l4/x4" | "endpoints/aws/nvidia-l40s/x1" | "endpoints/aws/nvidia-l40s/x4" | "endpoints/aws/nvidia-l40s/x8" | "endpoints/aws/nvidia-a10g/x1" | "endpoints/aws/nvidia-a10g/x4" | "endpoints/aws/nvidia-a100/x1" | "endpoints/aws/nvidia-a100/x2" | "endpoints/aws/nvidia-a100/x4" | "endpoints/aws/nvidia-a100/x8" | "endpoints/aws/nvidia-h200/x1" | "endpoints/aws/nvidia-h200/x2" | "endpoints/aws/nvidia-h200/x4" | "endpoints/aws/nvidia-h200/x8" | "endpoints/aws/inf2/x1" | "endpoints/aws/inf2/x12" | "endpoints/gcp/intel-spr/x1" | "endpoints/gcp/intel-spr/x2" | "endpoints/gcp/intel-spr/x4" | "endpoints/gcp/intel-spr/x8" | "endpoints/gcp/nvidia-t4/x1" | "endpoints/gcp/nvidia-l4/x1" | "endpoints/gcp/nvidia-l4/x4" | "endpoints/gcp/nvidia-a100/x1" | "endpoints/gcp/nvidia-a100/x2" | "endpoints/gcp/nvidia-a100/x4" | "endpoints/gcp/nvidia-a100/x8" | "endpoints/gcp/nvidia-h100/x1" | "endpoints/gcp/nvidia-h100/x2" | "endpoints/gcp/nvidia-h100/x4" | "endpoints/gcp/nvidia-h100/x8" | "endpoints/gcp/v5e/1x1" | "endpoints/gcp/v5e/2x2" | "endpoints/gcp/v5e/2x4";
-                                    quantity: number;
-                                    /** Format: date-time */
-                                    startedAt?: string;
-                                    stoppedAt?: string | null;
-                                    freeGrant?: boolean;
-                                    productPrettyName: string;
-                                    unitLabel: string | null;
-                                    totalCostMicroUSD: number;
-                                    unitCostMicroUSD: number;
-                                    active: boolean;
-                                }[];
-                            };
-                            period: {
-                                _id: string;
-                                entityId: string;
-                                /** @enum {unknown} */
-                                entityType: "user" | "org";
-                                entityName: string;
-                                /** Format: date-time */
-                                periodStart: string;
-                                /** Format: date-time */
-                                periodEnd: string;
-                                invoice?: {
-                                    /** @constant */
-                                    type: "stripe";
-                                    id: string;
-                                    amountDueCents: number;
-                                    totalCents: number;
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "paid" | "uncollectible" | "void" | "unpaid";
-                                    /** Format: date-time */
-                                    dueDate: string;
-                                    /** @enum {unknown} */
-                                    collectionMethod?: "charge_automatically" | "send_invoice";
-                                } | {
-                                    /** @constant */
-                                    type: "no-invoice";
-                                    /** @constant */
-                                    id: "no-invoice";
-                                };
-                                charges?: {
-                                    _id: string;
-                                    /** Format: date-time */
-                                    createdAt: string;
-                                    /** Format: date-time */
-                                    dueDate: string;
-                                    usageAtChargeTimeMicroUSD: number;
-                                    amountCents: number;
-                                    /** @enum {unknown} */
-                                    billedThrough: "stripe-payment-intent";
-                                    paymentIntentId: string;
-                                    /** @enum {unknown} */
-                                    paymentIntentStatus: "canceled" | "processing" | "requires_action" | "requires_capture" | "requires_confirmation" | "requires_payment_method" | "succeeded";
-                                }[];
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/organizations/{name}/billing/usage/live": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get live usage for org */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    name: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/settings/billing/usage": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user usage for a given period */
-        get: {
-            parameters: {
-                query?: {
-                    periodId?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Usage and period information */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            usage: {
-                                [key: string]: {
-                                    entityId: string;
-                                    label: string | null;
-                                    /** @enum {unknown} */
-                                    product: "hf/repository-storage" | "spaces/cpu-basic/minutes" | "spaces/zero-a10g/minutes" | "spaces/cpu-upgrade/minutes" | "spaces/cpu-performance/minutes" | "spaces/cpu-xl/minutes" | "spaces/t4-small/minutes" | "spaces/t4-medium/minutes" | "spaces/a10g-small/minutes" | "spaces/a10g-large/minutes" | "spaces/a10g-largex2/minutes" | "spaces/a10g-largex4/minutes" | "spaces/a100-large/minutes" | "spaces/h100/minutes" | "spaces/h100x8/minutes" | "spaces/l4x1/minutes" | "spaces/l4x4/minutes" | "spaces/l40sx1/minutes" | "spaces/l40sx4/minutes" | "spaces/l40sx8/minutes" | "spaces/v5e-2x4/minutes" | "spaces/v5e-2x2/minutes" | "spaces/v5e-1x1/minutes" | "spaces/storage-small/minutes" | "spaces/storage-medium/minutes" | "spaces/storage-large/minutes" | "endpoints/azure/intel-xeon/x1" | "endpoints/azure/intel-xeon/x2" | "endpoints/azure/intel-xeon/x4" | "endpoints/azure/intel-xeon/x8" | "endpoints/aws/intel-icl/x1" | "endpoints/aws/intel-icl/x2" | "endpoints/aws/intel-icl/x4" | "endpoints/aws/intel-icl/x8" | "endpoints/aws/intel-spr/x1" | "endpoints/aws/intel-spr/x2" | "endpoints/aws/intel-spr/x4" | "endpoints/aws/intel-spr/x8" | "endpoints/aws/intel-spr/x16" | "endpoints/aws/nvidia-t4/x1" | "endpoints/aws/nvidia-t4/x4" | "endpoints/aws/nvidia-l4/x1" | "endpoints/aws/nvidia-l4/x4" | "endpoints/aws/nvidia-l40s/x1" | "endpoints/aws/nvidia-l40s/x4" | "endpoints/aws/nvidia-l40s/x8" | "endpoints/aws/nvidia-a10g/x1" | "endpoints/aws/nvidia-a10g/x4" | "endpoints/aws/nvidia-a100/x1" | "endpoints/aws/nvidia-a100/x2" | "endpoints/aws/nvidia-a100/x4" | "endpoints/aws/nvidia-a100/x8" | "endpoints/aws/nvidia-h200/x1" | "endpoints/aws/nvidia-h200/x2" | "endpoints/aws/nvidia-h200/x4" | "endpoints/aws/nvidia-h200/x8" | "endpoints/aws/inf2/x1" | "endpoints/aws/inf2/x12" | "endpoints/gcp/intel-spr/x1" | "endpoints/gcp/intel-spr/x2" | "endpoints/gcp/intel-spr/x4" | "endpoints/gcp/intel-spr/x8" | "endpoints/gcp/nvidia-t4/x1" | "endpoints/gcp/nvidia-l4/x1" | "endpoints/gcp/nvidia-l4/x4" | "endpoints/gcp/nvidia-a100/x1" | "endpoints/gcp/nvidia-a100/x2" | "endpoints/gcp/nvidia-a100/x4" | "endpoints/gcp/nvidia-a100/x8" | "endpoints/gcp/nvidia-h100/x1" | "endpoints/gcp/nvidia-h100/x2" | "endpoints/gcp/nvidia-h100/x4" | "endpoints/gcp/nvidia-h100/x8" | "endpoints/gcp/v5e/1x1" | "endpoints/gcp/v5e/2x2" | "endpoints/gcp/v5e/2x4";
-                                    quantity: number;
-                                    /** Format: date-time */
-                                    startedAt?: string;
-                                    stoppedAt?: string | null;
-                                    freeGrant?: boolean;
-                                    productPrettyName: string;
-                                    unitLabel: string | null;
-                                    totalCostMicroUSD: number;
-                                    unitCostMicroUSD: number;
-                                    active: boolean;
-                                }[];
-                            };
-                            period: {
-                                _id: string;
-                                entityId: string;
-                                /** @enum {unknown} */
-                                entityType: "user" | "org";
-                                entityName: string;
-                                /** Format: date-time */
-                                periodStart: string;
-                                /** Format: date-time */
-                                periodEnd: string;
-                                invoice?: {
-                                    /** @constant */
-                                    type: "stripe";
-                                    id: string;
-                                    amountDueCents: number;
-                                    totalCents: number;
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "paid" | "uncollectible" | "void" | "unpaid";
-                                    /** Format: date-time */
-                                    dueDate: string;
-                                    /** @enum {unknown} */
-                                    collectionMethod?: "charge_automatically" | "send_invoice";
-                                } | {
-                                    /** @constant */
-                                    type: "no-invoice";
-                                    /** @constant */
-                                    id: "no-invoice";
-                                };
-                                charges?: {
-                                    _id: string;
-                                    /** Format: date-time */
-                                    createdAt: string;
-                                    /** Format: date-time */
-                                    dueDate: string;
-                                    usageAtChargeTimeMicroUSD: number;
-                                    amountCents: number;
-                                    /** @enum {unknown} */
-                                    billedThrough: "stripe-payment-intent";
-                                    paymentIntentId: string;
-                                    /** @enum {unknown} */
-                                    paymentIntentStatus: "canceled" | "processing" | "requires_action" | "requires_capture" | "requires_confirmation" | "requires_payment_method" | "succeeded";
-                                }[];
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/settings/billing/usage/live": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get live usage for user */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/{username}/billing/usage/live": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get live usage for user */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    username: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/models/{namespace}/{repo}/lfs-files": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Xet/LFS files for a repo */
-        get: {
-            parameters: {
-                query?: {
-                    cursor?: string;
-                    limit?: number;
-                    xet?: unknown;
-                };
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List of Xet/LFS files for the repo */
-                200: {
-                    headers: {
-                        /** @description Link header for pagination, can contain a `rel="next"` link */
-                        Link?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            pusher?: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            ref?: string;
-                            fileOid: string;
-                            oid: string;
-                            size: number;
-                            /** Format: date-time */
-                            pushedAt: string;
-                            /** @description Potential filename of the LFS file */
-                            filename?: string;
-                            xetHash?: string;
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/datasets/{namespace}/{repo}/lfs-files": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Xet/LFS files for a repo */
-        get: {
-            parameters: {
-                query?: {
-                    cursor?: string;
-                    limit?: number;
-                    xet?: unknown;
-                };
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List of Xet/LFS files for the repo */
-                200: {
-                    headers: {
-                        /** @description Link header for pagination, can contain a `rel="next"` link */
-                        Link?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            pusher?: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            ref?: string;
-                            fileOid: string;
-                            oid: string;
-                            size: number;
-                            /** Format: date-time */
-                            pushedAt: string;
-                            /** @description Potential filename of the LFS file */
-                            filename?: string;
-                            xetHash?: string;
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/spaces/{namespace}/{repo}/lfs-files": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Xet/LFS files for a repo */
-        get: {
-            parameters: {
-                query?: {
-                    cursor?: string;
-                    limit?: number;
-                    xet?: unknown;
-                };
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List of Xet/LFS files for the repo */
-                200: {
-                    headers: {
-                        /** @description Link header for pagination, can contain a `rel="next"` link */
-                        Link?: string;
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            pusher?: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            ref?: string;
-                            fileOid: string;
-                            oid: string;
-                            size: number;
-                            /** Format: date-time */
-                            pushedAt: string;
-                            /** @description Potential filename of the LFS file */
-                            filename?: string;
-                            xetHash?: string;
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get discussions for a repo */
-        get: {
-            parameters: {
-                query?: {
-                    p?: number;
-                    type?: "all" | "discussion" | "pull_request";
-                    status?: "all" | "open" | "closed";
-                    author?: string;
-                    search?: string;
-                    sort?: "recently-created" | "trending" | "reactions";
-                };
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description List of discussions */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            discussions: {
-                                num: number;
-                                author?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                repo: components["schemas"]["RepoId"];
-                                title: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                topReactions: {
-                                    /** @enum {unknown} */
-                                    reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                    count: number;
-                                }[];
-                                /** @enum {unknown} */
-                                status: "draft" | "open" | "closed" | "merged";
-                                isPullRequest: boolean;
-                                numComments: number;
-                                numReactionUsers: number;
-                                pinned: boolean;
-                                repoOwner?: {
-                                    name: string;
-                                    /** @enum {unknown} */
-                                    type: "org" | "user";
-                                    isParticipating: boolean;
-                                    isDiscussionAuthor: boolean;
-                                };
-                            }[];
-                            count: number;
-                            start: number;
-                            /** @description Number of closed discussions on the first page */
-                            numClosedDiscussions?: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Create a new discussion */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        title: string;
-                        description: string;
-                        pullRequest?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description Discussion creation response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            url: string;
-                            num: number;
-                            pullRequest: boolean;
-                            references?: {
-                                base: string;
-                                mergeCommitId?: string;
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get discussion details */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Discussion details */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": ({
                             _id: string;
-                            num?: number;
-                            author?: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "org";
-                                isEnterprise: boolean;
-                                isUserFollowing?: boolean;
-                            } | {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            org?: {
-                                avatarUrl: string;
-                                email?: string;
-                                fullname: string;
-                                name: string;
-                                /** @constant */
-                                type: "org";
-                                isHf: boolean;
-                                isEnterprise?: boolean;
-                                /** @enum {unknown} */
-                                plan?: "team" | "enterprise" | "plus";
-                                details?: string;
-                                requiresSSO?: boolean;
-                            };
-                            repo?: components["schemas"]["RepoId"];
-                            title: string;
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** @enum {unknown} */
-                            status: "draft" | "open" | "closed" | "merged";
-                            events: ({
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "status-change";
-                                data: {
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "closed" | "merged";
-                                    reason?: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "commit";
-                                data: {
-                                    subject: string;
-                                    oid: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "title-change";
-                                data: {
-                                    from: string;
-                                    to: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "pinning-change";
-                                data: {
-                                    pinned: boolean;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "locking-change";
-                                data: {
-                                    locked: boolean;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "report-status-change";
-                                data: {
-                                    report: boolean;
-                                };
-                            })[];
-                            pinned: boolean;
-                            locked: boolean;
-                            /** @enum {unknown} */
-                            collection: "discussions" | "paper_discussions" | "social_posts" | "canonical_blogs" | "community_blogs";
-                            /** @constant */
-                            isPullRequest: false;
-                            isReport: boolean;
-                        } | {
-                            _id: string;
-                            num?: number;
-                            author?: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "org";
-                                isEnterprise: boolean;
-                                isUserFollowing?: boolean;
-                            } | {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            org?: {
-                                avatarUrl: string;
-                                email?: string;
-                                fullname: string;
-                                name: string;
-                                /** @constant */
-                                type: "org";
-                                isHf: boolean;
-                                isEnterprise?: boolean;
-                                /** @enum {unknown} */
-                                plan?: "team" | "enterprise" | "plus";
-                                details?: string;
-                                requiresSSO?: boolean;
-                            };
-                            repo?: components["schemas"]["RepoId"];
-                            title: string;
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** @enum {unknown} */
-                            status: "draft" | "open" | "closed" | "merged";
-                            events: ({
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "status-change";
-                                data: {
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "closed" | "merged";
-                                    reason?: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "commit";
-                                data: {
-                                    subject: string;
-                                    oid: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "title-change";
-                                data: {
-                                    from: string;
-                                    to: string;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "pinning-change";
-                                data: {
-                                    pinned: boolean;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "locking-change";
-                                data: {
-                                    locked: boolean;
-                                };
-                            } | {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "report-status-change";
-                                data: {
-                                    report: boolean;
-                                };
-                            })[];
-                            pinned: boolean;
-                            locked: boolean;
-                            /** @constant */
-                            collection: "discussions";
-                            /** @constant */
-                            isPullRequest: true;
-                            /** @description The list of files with conflicts. `true` means there are conflicts but we cannot list them. */
-                            filesWithConflicts: string[] | true;
-                            changes: {
-                                base: string;
-                                mergeCommitId?: string;
-                            };
-                        }) & {
-                            diffUrl?: string;
+                            isUserFollowing?: boolean;
+                          };
+                      name: string;
+                    };
+                    ai_short_description?: string;
+                    ai_category?: string;
+                    trendingScore?: number;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    tags: string[];
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
                         };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /** Delete a discussion */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}/comment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
+                    shortDescription?: string;
+                    semanticRelevancyScore?: number;
+                    /** @constant */
+                    type: "space";
+                  }
+                | {
+                    id: string;
+                    title: string;
+                    upvotes: number;
+                    /** Format: date-time */
+                    publishedAt: string;
+                    thumbnailUrl?: string;
+                    isUpvotedByUser?: boolean;
+                    /** @constant */
+                    type: "paper";
+                  }
+                | {
+                    slug: string;
+                    /** Format: date-time */
+                    lastUpdated: string;
+                    description?: string;
+                    owner:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
                         };
-                        description: unknown;
-                    };
-                };
+                    title: string;
+                    /** @enum {unknown} */
+                    theme:
+                      | "orange"
+                      | "blue"
+                      | "green"
+                      | "purple"
+                      | "pink"
+                      | "indigo";
+                    upvotes: number;
+                    isUpvotedByUser: boolean;
+                    id: string;
+                    numberItems: number;
+                    /** @constant */
+                    type: "collection";
+                  }
+              ))[];
             };
+          };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Delete a collection
+     * @description Delete a collection
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
         };
-        get?: never;
-        put?: never;
-        /** Change the status of a discussion */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    options?: never;
+    head?: never;
+    /** Update a collection */
+    patch: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            position?: number;
+            private?: boolean;
+            /** @enum {unknown} */
+            theme?: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
+            title?: string;
+            description?: string;
+            gating?:
+              | false
+              | {
+                  /** @constant */
+                  mode: "auto";
+                }
+              | {
+                  /** @constant */
+                  mode: "manual";
+                  notifications: {
+                    /** @enum {unknown} */
+                    mode: "bulk" | "real-time";
+                    email?: string;
+                  };
                 };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
+          };
+        };
+      };
+      responses: {
+        /** @description The updated collection */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              data: {
+                slug: string;
+                title: string;
+                description?: string;
+                /** Format: date-time */
+                lastUpdated: string;
+                gating:
+                  | true
+                  | (
+                      | false
+                      | {
+                          /** @constant */
+                          mode: "auto";
+                        }
+                      | {
+                          /** @constant */
+                          mode: "manual";
+                          notifications: {
+                            /** @enum {unknown} */
+                            mode: "bulk" | "real-time";
+                            email?: string;
+                          };
+                        }
+                    );
+                owner:
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "org";
+                      isEnterprise: boolean;
+                      isUserFollowing?: boolean;
+                    }
+                  | {
+                      avatarUrl: string;
+                      fullname: string;
+                      name: string;
+                      isHf: boolean;
+                      isHfAdmin: boolean;
+                      isMod: boolean;
+                      followerCount?: number;
+                      /** @constant */
+                      type: "user";
+                      isPro: boolean;
+                      _id: string;
+                      isUserFollowing?: boolean;
+                    };
+                position: number;
+                /** @enum {unknown} */
+                theme:
+                  | "orange"
+                  | "blue"
+                  | "green"
+                  | "purple"
+                  | "pink"
+                  | "indigo";
+                private: boolean;
+                upvotes: number;
+                shareUrl: string;
+                isUpvotedByUser: boolean;
+                items: ({
+                  _id: string;
+                  note?: {
+                    html: string;
+                    text: string;
+                  };
+                  gallery?: string[];
+                  position: number;
+                } & (
+                  | {
+                      author: string;
+                      id: string;
+                      isLikedByUser: boolean;
+                      likes: number;
+                      datasetsServerInfo?: {
                         /** @enum {unknown} */
-                        status: "open" | "closed";
-                        comment?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description New status event */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newStatus: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "status-change";
-                                data: {
-                                    /** @enum {unknown} */
-                                    status: "draft" | "open" | "closed" | "merged";
-                                    reason?: string;
-                                };
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}/title": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Change the title of a discussion */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        title: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description New title event */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newTitle: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "title-change";
-                                data: {
-                                    from: string;
-                                    to: string;
-                                };
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}/pin": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Pin a discussion */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        pinned: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/{repoType}/{namespace}/{repo}/discussions/{num}/merge": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Merge a pull request */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    repoType: "models" | "spaces" | "datasets";
-                    namespace: string;
-                    repo: string;
-                    num: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/models-tags-by-type": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get all possible tags used for models
-         * @description Get all possible tags used for models, grouped by tag type. Optionally restrict to only one tag type
-         */
-        get: {
-            parameters: {
-                query?: {
-                    type?: "pipeline_tag" | "library" | "dataset" | "language" | "license" | "arxiv" | "doi" | "region" | "other";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The tags, grouped by tag type */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            [key: string]: {
-                                id: string;
-                                label: string;
-                                /** @enum {unknown} */
-                                type: "pipeline_tag" | "library" | "dataset" | "language" | "license" | "arxiv" | "doi" | "region" | "other";
-                                subType?: string;
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/datasets-tags-by-type": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get all possible tags used for datasets
-         * @description Get all possible tags used for datasets, grouped by tag type. Optionally restrict to only one tag type
-         */
-        get: {
-            parameters: {
-                query?: {
-                    type?: "task_categories" | "size_categories" | "modality" | "format" | "library" | "language" | "license" | "arxiv" | "doi" | "region" | "other" | "task_ids" | "annotations_creators" | "language_creators" | "multilinguality" | "source_datasets" | "benchmark";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The tags, grouped by tag type */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            [key: string]: {
-                                id: string;
-                                label: string;
-                                /** @enum {unknown} */
-                                type: "task_categories" | "size_categories" | "modality" | "format" | "library" | "language" | "license" | "arxiv" | "doi" | "region" | "other" | "task_ids" | "annotations_creators" | "language_creators" | "multilinguality" | "source_datasets" | "benchmark";
-                                subType?: string;
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/repos/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new repository */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
+                        viewer: "preview" | "viewer-partial" | "viewer";
+                        numRows: number | null;
+                        libraries: (
+                          | "mlcroissant"
+                          | "webdataset"
+                          | "datasets"
+                          | "pandas"
+                          | "dask"
+                          | "distilabel"
+                          | "fiftyone"
+                          | "argilla"
+                          | "polars"
+                          | "duckdb"
+                        )[];
+                        formats: (
+                          | "json"
+                          | "csv"
+                          | "parquet"
+                          | "imagefolder"
+                          | "audiofolder"
+                          | "webdataset"
+                          | "text"
+                          | "arrow"
+                        )[];
+                        modalities: (
+                          | "3d"
+                          | "audio"
+                          | "document"
+                          | "geospatial"
+                          | "image"
+                          | "tabular"
+                          | "text"
+                          | "timeseries"
+                          | "video"
+                        )[];
+                      };
+                      private: boolean;
+                      /** @constant */
+                      repoType: "dataset";
+                      downloads: number;
+                      gated: false | ("auto" | "manual");
+                      /** Format: date-time */
+                      lastModified: string;
+                      resourceGroup?: {
+                        id: string;
                         name: string;
-                        /**
-                         * @description The license of the repository. You can select 'Other' if your license is not in the list
-                         * @enum {unknown}
-                         */
-                        license?: "apache-2.0" | "mit" | "openrail" | "bigscience-openrail-m" | "creativeml-openrail-m" | "bigscience-bloom-rail-1.0" | "bigcode-openrail-m" | "afl-3.0" | "artistic-2.0" | "bsl-1.0" | "bsd" | "bsd-2-clause" | "bsd-3-clause" | "bsd-3-clause-clear" | "c-uda" | "cc" | "cc0-1.0" | "cc-by-2.0" | "cc-by-2.5" | "cc-by-3.0" | "cc-by-4.0" | "cc-by-sa-3.0" | "cc-by-sa-4.0" | "cc-by-nc-2.0" | "cc-by-nc-3.0" | "cc-by-nc-4.0" | "cc-by-nd-4.0" | "cc-by-nc-nd-3.0" | "cc-by-nc-nd-4.0" | "cc-by-nc-sa-2.0" | "cc-by-nc-sa-3.0" | "cc-by-nc-sa-4.0" | "cdla-sharing-1.0" | "cdla-permissive-1.0" | "cdla-permissive-2.0" | "wtfpl" | "ecl-2.0" | "epl-1.0" | "epl-2.0" | "etalab-2.0" | "eupl-1.1" | "eupl-1.2" | "agpl-3.0" | "gfdl" | "gpl" | "gpl-2.0" | "gpl-3.0" | "lgpl" | "lgpl-2.1" | "lgpl-3.0" | "isc" | "intel-research" | "lppl-1.3c" | "ms-pl" | "apple-ascl" | "apple-amlr" | "mpl-2.0" | "odc-by" | "odbl" | "openrail++" | "osl-3.0" | "postgresql" | "ofl-1.1" | "ncsa" | "unlicense" | "zlib" | "pddl" | "lgpl-lr" | "deepfloyd-if-license" | "fair-noncommercial-research-license" | "llama2" | "llama3" | "llama3.1" | "llama3.2" | "llama3.3" | "llama4" | "gemma" | "unknown" | "other";
-                        license_name?: string & (unknown & unknown);
-                        license_link?: "LICENSE" | "LICENSE.md" | string;
-                        /** @description Repository visibility. Defaults to public */
-                        private?: boolean | null;
-                        resourceGroupId?: string | null;
-                        files?: {
-                            content: string;
-                            path: string;
-                            /** @enum {unknown} */
-                            encoding: "utf-8" | "base64";
-                        }[];
-                    } & ({
-                        /** @constant */
-                        type: "dataset";
-                    } | {
-                        /**
-                         * @default model
-                         * @constant
-                         */
-                        type?: "model";
-                    } | {
-                        /** @constant */
-                        type: "space";
-                        template?: string;
-                        short_description?: string;
-                        /**
-                         * @description The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio.
-                         * @enum {unknown}
-                         */
-                        hardware?: "cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8" | "zerogpu";
-                        storageTier?: ("small" | "medium" | "large") | null;
-                        /** @default [] */
-                        secrets?: {
-                            key: string;
-                            description?: string;
-                            value: string;
-                        }[];
-                        /** @default [] */
-                        variables?: {
-                            key: string;
-                            description?: string;
-                            value: string;
-                        }[];
-                        sleepTimeSeconds?: number | -1;
+                        numUsers: number;
+                      };
+                      /** @constant */
+                      type: "dataset";
+                    }
+                  | {
+                      author: string;
+                      downloads: number;
+                      id: string;
+                      availableInferenceProviders: {
                         /** @enum {unknown} */
-                        sdk: "gradio" | "docker" | "static" | "streamlit";
-                        sdkVersion?: string | null;
-                        devModeEnabled?: boolean;
-                    });
-                };
-            };
-            responses: {
-                /** @description Repository created, url is given */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            url: string;
+                        provider:
+                          | "black-forest-labs"
+                          | "cerebras"
+                          | "cohere"
+                          | "fal-ai"
+                          | "featherless-ai"
+                          | "fireworks-ai"
+                          | "groq"
+                          | "hf-inference"
+                          | "hyperbolic"
+                          | "nebius"
+                          | "novita"
+                          | "nscale"
+                          | "openai"
+                          | "ovhcloud"
+                          | "replicate"
+                          | "sambanova"
+                          | "together";
+                        /** @enum {unknown} */
+                        providerStatus: "live" | "staging" | "error";
+                        /** @enum {unknown} */
+                        modelStatus: "live" | "staging" | "error";
+                        providerId: string;
+                        /** @enum {unknown} */
+                        task:
+                          | "text-classification"
+                          | "token-classification"
+                          | "table-question-answering"
+                          | "question-answering"
+                          | "zero-shot-classification"
+                          | "translation"
+                          | "summarization"
+                          | "feature-extraction"
+                          | "text-generation"
+                          | "text2text-generation"
+                          | "fill-mask"
+                          | "sentence-similarity"
+                          | "text-to-speech"
+                          | "text-to-audio"
+                          | "automatic-speech-recognition"
+                          | "audio-to-audio"
+                          | "audio-classification"
+                          | "audio-text-to-text"
+                          | "voice-activity-detection"
+                          | "depth-estimation"
+                          | "image-classification"
+                          | "object-detection"
+                          | "image-segmentation"
+                          | "text-to-image"
+                          | "image-to-text"
+                          | "image-to-image"
+                          | "image-to-video"
+                          | "unconditional-image-generation"
+                          | "video-classification"
+                          | "reinforcement-learning"
+                          | "robotics"
+                          | "tabular-classification"
+                          | "tabular-regression"
+                          | "tabular-to-text"
+                          | "table-to-text"
+                          | "multiple-choice"
+                          | "text-ranking"
+                          | "text-retrieval"
+                          | "time-series-forecasting"
+                          | "text-to-video"
+                          | "image-text-to-text"
+                          | "visual-question-answering"
+                          | "document-question-answering"
+                          | "zero-shot-image-classification"
+                          | "graph-ml"
+                          | "mask-generation"
+                          | "zero-shot-object-detection"
+                          | "text-to-3d"
+                          | "image-to-3d"
+                          | "image-feature-extraction"
+                          | "video-text-to-text"
+                          | "keypoint-detection"
+                          | "visual-document-retrieval"
+                          | "any-to-any"
+                          | "video-to-video"
+                          | "other"
+                          | "conversational";
+                        /** @constant */
+                        adapterType?: "lora";
+                        adapterWeightsPath?: string;
+                      }[];
+                      isLikedByUser: boolean;
+                      /** Format: date-time */
+                      lastModified: string;
+                      likes: number;
+                      pipeline_tag?: string;
+                      private: boolean;
+                      /** @constant */
+                      repoType: "model";
+                      gated: false | ("auto" | "manual");
+                      resourceGroup?: {
+                        id: string;
+                        name: string;
+                        numUsers: number;
+                      };
+                      numParameters?: number;
+                      authorData?:
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
                             name: string;
-                            id: string;
-                        };
-                    };
-                };
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            url: string;
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/repos/move": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Move or rename a repo
-         * @description Move or rename a repo.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        fromRepo: string;
-                        toRepo: string;
-                        /**
-                         * @default model
-                         * @enum {unknown}
-                         */
-                        type?: "dataset" | "model" | "space";
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/spaces/{namespace}/{repo}/logs/{logType}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream logs for a Space
-         * @description Get logs for a specific Space in a streaming fashion, with SSE protocol
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                    logType: "build" | "run";
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/spaces/{namespace}/{repo}/events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream events for a Space
-         * @description Get status updates for a specific Space in a streaming fashion, with SSE protocol
-         */
-        get: {
-            parameters: {
-                query?: {
-                    session_uuid?: string;
-                };
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/spaces/{namespace}/{repo}/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream metrics for a Space
-         * @description Get live metrics for a specific Space in a streaming fashion, with SSE protocol, such as current Zero-GPU usage
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    repo: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/papers/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Perform a hybrid semantic / full-text-search on papers */
-        get: {
-            parameters: {
-                query?: {
-                    q?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/papers/{paperId}/comment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    paperId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/papers/{paperId}/comment/{commentId}/reply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    paperId: string;
-                    commentId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/posts/{username}/{postSlug}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Delete a discussion */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    username: string;
-                    postSlug: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/posts/{username}/{postSlug}/comment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    username: string;
-                    postSlug: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/posts/{username}/{postSlug}/comment/{commentId}/reply": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a new comment */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    username: string;
-                    postSlug: string;
-                    commentId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        comment: string;
-                    };
-                };
-            };
-            responses: {
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            newMessage: {
-                                id: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                author?: ({
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                }) & {
-                                    isOwner?: boolean;
-                                    isOrgMember?: boolean;
-                                    oauthApp?: {
-                                        imageUrl?: string;
-                                        imageData?: {
-                                            emoji: string;
-                                            colorFrom: string;
-                                            colorTo: string;
-                                        };
-                                        url?: string;
-                                        name: string;
-                                    };
-                                };
-                                /** @constant */
-                                type: "comment";
-                                data: {
-                                    edited: boolean;
-                                    hidden: boolean;
-                                    hiddenBy?: string;
-                                    /** @enum {unknown} */
-                                    hiddenReason?: "Spam" | "Abuse" | "Graphic Content" | "Resolved" | "Off-Topic";
-                                    latest: {
-                                        raw: string;
-                                        html: string;
-                                        /** Format: date-time */
-                                        updatedAt: string;
-                                        author?: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                    };
-                                    numEdits: number;
-                                    editors: string[];
-                                    editorAvatarUrls: string[];
-                                    reactions: {
-                                        /** @enum {unknown} */
-                                        reaction: "🔥" | "🚀" | "👀" | "❤️" | "🤗" | "😎" | "➕" | "🧠" | "👍" | "🤝" | "😔" | "🤯";
-                                        users: string[];
-                                        count: number;
-                                    }[];
-                                    identifiedLanguage?: {
-                                        language: string;
-                                        probability: number;
-                                    };
-                                    relatedEventId?: string;
-                                    isReport?: boolean;
-                                    parentCommentId?: string;
-                                };
-                            };
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/collections/{namespace}/{slug}-{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a collection */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The collection data */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            slug: string;
-                            title: string;
-                            description?: string;
-                            /** Format: date-time */
-                            lastUpdated: string;
-                            gating: true | (false | {
-                                /** @constant */
-                                mode: "auto";
-                            } | {
-                                /** @constant */
-                                mode: "manual";
-                                notifications: {
-                                    /** @enum {unknown} */
-                                    mode: "bulk" | "real-time";
-                                    email?: string;
-                                };
-                            });
-                            owner: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "org";
-                                isEnterprise: boolean;
-                                isUserFollowing?: boolean;
-                            } | {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            position: number;
-                            /** @enum {unknown} */
-                            theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                            private: boolean;
-                            upvotes: number;
-                            shareUrl: string;
-                            isUpvotedByUser: boolean;
-                            items: ({
-                                _id: string;
-                                note?: {
-                                    html: string;
-                                    text: string;
-                                };
-                                gallery?: string[];
-                                position: number;
-                            } & ({
-                                author: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                likes: number;
-                                datasetsServerInfo?: {
-                                    /** @enum {unknown} */
-                                    viewer: "preview" | "viewer-partial" | "viewer";
-                                    numRows: number | null;
-                                    libraries: ("mlcroissant" | "webdataset" | "datasets" | "pandas" | "dask" | "distilabel" | "fiftyone" | "argilla" | "polars" | "duckdb")[];
-                                    formats: ("json" | "csv" | "parquet" | "imagefolder" | "audiofolder" | "webdataset" | "text" | "arrow")[];
-                                    modalities: ("3d" | "audio" | "document" | "geospatial" | "image" | "tabular" | "text" | "timeseries" | "video")[];
-                                };
-                                private: boolean;
-                                /** @constant */
-                                repoType: "dataset";
-                                downloads: number;
-                                gated: false | ("auto" | "manual");
-                                /** Format: date-time */
-                                lastModified: string;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                /** @constant */
-                                type: "dataset";
-                            } | {
-                                author: string;
-                                downloads: number;
-                                id: string;
-                                availableInferenceProviders: {
-                                    /** @enum {unknown} */
-                                    provider: "black-forest-labs" | "cerebras" | "cohere" | "fal-ai" | "featherless-ai" | "fireworks-ai" | "groq" | "hf-inference" | "hyperbolic" | "nebius" | "novita" | "nscale" | "openai" | "ovhcloud" | "replicate" | "sambanova" | "together";
-                                    /** @enum {unknown} */
-                                    providerStatus: "live" | "staging" | "error";
-                                    /** @enum {unknown} */
-                                    modelStatus: "live" | "staging" | "error";
-                                    providerId: string;
-                                    /** @enum {unknown} */
-                                    task: "text-classification" | "token-classification" | "table-question-answering" | "question-answering" | "zero-shot-classification" | "translation" | "summarization" | "feature-extraction" | "text-generation" | "text2text-generation" | "fill-mask" | "sentence-similarity" | "text-to-speech" | "text-to-audio" | "automatic-speech-recognition" | "audio-to-audio" | "audio-classification" | "audio-text-to-text" | "voice-activity-detection" | "depth-estimation" | "image-classification" | "object-detection" | "image-segmentation" | "text-to-image" | "image-to-text" | "image-to-image" | "image-to-video" | "unconditional-image-generation" | "video-classification" | "reinforcement-learning" | "robotics" | "tabular-classification" | "tabular-regression" | "tabular-to-text" | "table-to-text" | "multiple-choice" | "text-ranking" | "text-retrieval" | "time-series-forecasting" | "text-to-video" | "image-text-to-text" | "visual-question-answering" | "document-question-answering" | "zero-shot-image-classification" | "graph-ml" | "mask-generation" | "zero-shot-object-detection" | "text-to-3d" | "image-to-3d" | "image-feature-extraction" | "video-text-to-text" | "keypoint-detection" | "visual-document-retrieval" | "any-to-any" | "video-to-video" | "other" | "conversational";
-                                    /** @constant */
-                                    adapterType?: "lora";
-                                    adapterWeightsPath?: string;
-                                }[];
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pipeline_tag?: string;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "model";
-                                gated: false | ("auto" | "manual");
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                numParameters?: number;
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                widgetOutputUrls?: string[];
-                                /** @constant */
-                                type: "model";
-                            } | {
-                                author: string;
-                                colorFrom: string;
-                                colorTo: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                emoji: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pinned: boolean;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "space";
-                                title: string;
-                                /** @enum {unknown} */
-                                sdk?: "gradio" | "docker" | "static" | "streamlit";
-                                runtime: {
-                                    /** @enum {unknown} */
-                                    stage: "NO_APP_FILE" | "CONFIG_ERROR" | "BUILDING" | "BUILD_ERROR" | "APP_STARTING" | "RUNNING" | "RUNNING_BUILDING" | "RUNNING_APP_STARTING" | "RUNTIME_ERROR" | "DELETING" | "STOPPED" | "PAUSED" | "SLEEPING";
-                                    hardware: {
-                                        current: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                        requested: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                    };
-                                    storage: ("small" | "medium" | "large") | null;
-                                    errorMessage?: string;
-                                    gcTimeout?: number | null;
-                                    replicas: {
-                                        current?: number | null;
-                                        requested: number | "auto";
-                                    };
-                                    devMode?: boolean;
-                                    domains?: {
-                                        domain: string;
-                                        isCustom?: boolean | null;
-                                        /** @enum {unknown} */
-                                        stage: "READY" | "PENDING";
-                                    }[];
-                                    sha?: string;
-                                };
-                                originSpace?: {
-                                    author: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    name: string;
-                                };
-                                ai_short_description?: string;
-                                ai_category?: string;
-                                trendingScore?: number;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                tags: string[];
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                shortDescription?: string;
-                                semanticRelevancyScore?: number;
-                                /** @constant */
-                                type: "space";
-                            } | {
-                                id: string;
-                                title: string;
-                                upvotes: number;
-                                /** Format: date-time */
-                                publishedAt: string;
-                                thumbnailUrl?: string;
-                                isUpvotedByUser?: boolean;
-                                /** @constant */
-                                type: "paper";
-                            } | {
-                                slug: string;
-                                /** Format: date-time */
-                                lastUpdated: string;
-                                description?: string;
-                                owner: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                title: string;
-                                /** @enum {unknown} */
-                                theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                upvotes: number;
-                                isUpvotedByUser: boolean;
-                                id: string;
-                                numberItems: number;
-                                /** @constant */
-                                type: "collection";
-                            }))[];
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /**
-         * Delete a collection
-         * @description Delete a collection
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        /** Update a collection */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        position?: number;
-                        private?: boolean;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "user";
+                            isPro: boolean;
+                            _id: string;
+                            isUserFollowing?: boolean;
+                          };
+                      widgetOutputUrls?: string[];
+                      /** @constant */
+                      type: "model";
+                    }
+                  | {
+                      author: string;
+                      colorFrom: string;
+                      colorTo: string;
+                      /** Format: date-time */
+                      createdAt: string;
+                      emoji: string;
+                      id: string;
+                      isLikedByUser: boolean;
+                      /** Format: date-time */
+                      lastModified: string;
+                      likes: number;
+                      pinned: boolean;
+                      private: boolean;
+                      /** @constant */
+                      repoType: "space";
+                      title: string;
+                      /** @enum {unknown} */
+                      sdk?: "gradio" | "docker" | "static" | "streamlit";
+                      runtime: {
                         /** @enum {unknown} */
-                        theme?: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                        title?: string;
-                        description?: string;
-                        gating?: false | {
+                        stage:
+                          | "NO_APP_FILE"
+                          | "CONFIG_ERROR"
+                          | "BUILDING"
+                          | "BUILD_ERROR"
+                          | "APP_STARTING"
+                          | "RUNNING"
+                          | "RUNNING_BUILDING"
+                          | "RUNNING_APP_STARTING"
+                          | "RUNTIME_ERROR"
+                          | "DELETING"
+                          | "STOPPED"
+                          | "PAUSED"
+                          | "SLEEPING";
+                        hardware: {
+                          current:
+                            | (
+                                | "cpu-basic"
+                                | "cpu-upgrade"
+                                | "cpu-performance"
+                                | "cpu-xl"
+                                | "zero-a10g"
+                                | "t4-small"
+                                | "t4-medium"
+                                | "l4x1"
+                                | "l4x4"
+                                | "l40sx1"
+                                | "l40sx4"
+                                | "l40sx8"
+                                | "a10g-small"
+                                | "a10g-large"
+                                | "a10g-largex2"
+                                | "a10g-largex4"
+                                | "a100-large"
+                                | "h100"
+                                | "h100x8"
+                              )
+                            | null;
+                          requested:
+                            | (
+                                | "cpu-basic"
+                                | "cpu-upgrade"
+                                | "cpu-performance"
+                                | "cpu-xl"
+                                | "zero-a10g"
+                                | "t4-small"
+                                | "t4-medium"
+                                | "l4x1"
+                                | "l4x4"
+                                | "l40sx1"
+                                | "l40sx4"
+                                | "l40sx8"
+                                | "a10g-small"
+                                | "a10g-large"
+                                | "a10g-largex2"
+                                | "a10g-largex4"
+                                | "a100-large"
+                                | "h100"
+                                | "h100x8"
+                              )
+                            | null;
+                        };
+                        storage: ("small" | "medium" | "large") | null;
+                        errorMessage?: string;
+                        gcTimeout?: number | null;
+                        replicas: {
+                          current?: number | null;
+                          requested: number | "auto";
+                        };
+                        devMode?: boolean;
+                        domains?: {
+                          domain: string;
+                          isCustom?: boolean | null;
+                          /** @enum {unknown} */
+                          stage: "READY" | "PENDING";
+                        }[];
+                        sha?: string;
+                      };
+                      originSpace?: {
+                        author:
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            };
+                        name: string;
+                      };
+                      ai_short_description?: string;
+                      ai_category?: string;
+                      trendingScore?: number;
+                      resourceGroup?: {
+                        id: string;
+                        name: string;
+                        numUsers: number;
+                      };
+                      tags: string[];
+                      authorData?:
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "user";
+                            isPro: boolean;
+                            _id: string;
+                            isUserFollowing?: boolean;
+                          };
+                      shortDescription?: string;
+                      semanticRelevancyScore?: number;
+                      /** @constant */
+                      type: "space";
+                    }
+                  | {
+                      id: string;
+                      title: string;
+                      upvotes: number;
+                      /** Format: date-time */
+                      publishedAt: string;
+                      thumbnailUrl?: string;
+                      isUpvotedByUser?: boolean;
+                      /** @constant */
+                      type: "paper";
+                    }
+                  | {
+                      slug: string;
+                      /** Format: date-time */
+                      lastUpdated: string;
+                      description?: string;
+                      owner:
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "user";
+                            isPro: boolean;
+                            _id: string;
+                            isUserFollowing?: boolean;
+                          };
+                      title: string;
+                      /** @enum {unknown} */
+                      theme:
+                        | "orange"
+                        | "blue"
+                        | "green"
+                        | "purple"
+                        | "pink"
+                        | "indigo";
+                      upvotes: number;
+                      isUpvotedByUser: boolean;
+                      id: string;
+                      numberItems: number;
+                      /** @constant */
+                      type: "collection";
+                    }
+                ))[];
+              };
+            };
+          };
+        };
+      };
+    };
+    trace?: never;
+  };
+  "/api/collections/{namespace}/{slug}-{id}/items": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add an item to a collection
+     * @description Add an item to a collection
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            item: {
+              /** @enum {unknown} */
+              type: "paper" | "collection" | "space" | "model" | "dataset";
+              id: string;
+            };
+            note?: string;
+          };
+        };
+      };
+      responses: {
+        /** @description The updated collection */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              slug: string;
+              title: string;
+              description?: string;
+              /** Format: date-time */
+              lastUpdated: string;
+              gating:
+                | true
+                | (
+                    | false
+                    | {
+                        /** @constant */
+                        mode: "auto";
+                      }
+                    | {
+                        /** @constant */
+                        mode: "manual";
+                        notifications: {
+                          /** @enum {unknown} */
+                          mode: "bulk" | "real-time";
+                          email?: string;
+                        };
+                      }
+                  );
+              owner:
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "org";
+                    isEnterprise: boolean;
+                    isUserFollowing?: boolean;
+                  }
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "user";
+                    isPro: boolean;
+                    _id: string;
+                    isUserFollowing?: boolean;
+                  };
+              position: number;
+              /** @enum {unknown} */
+              theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
+              private: boolean;
+              upvotes: number;
+              shareUrl: string;
+              isUpvotedByUser: boolean;
+              items: ({
+                _id: string;
+                note?: {
+                  html: string;
+                  text: string;
+                };
+                gallery?: string[];
+                position: number;
+              } & (
+                | {
+                    author: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    likes: number;
+                    datasetsServerInfo?: {
+                      /** @enum {unknown} */
+                      viewer: "preview" | "viewer-partial" | "viewer";
+                      numRows: number | null;
+                      libraries: (
+                        | "mlcroissant"
+                        | "webdataset"
+                        | "datasets"
+                        | "pandas"
+                        | "dask"
+                        | "distilabel"
+                        | "fiftyone"
+                        | "argilla"
+                        | "polars"
+                        | "duckdb"
+                      )[];
+                      formats: (
+                        | "json"
+                        | "csv"
+                        | "parquet"
+                        | "imagefolder"
+                        | "audiofolder"
+                        | "webdataset"
+                        | "text"
+                        | "arrow"
+                      )[];
+                      modalities: (
+                        | "3d"
+                        | "audio"
+                        | "document"
+                        | "geospatial"
+                        | "image"
+                        | "tabular"
+                        | "text"
+                        | "timeseries"
+                        | "video"
+                      )[];
+                    };
+                    private: boolean;
+                    /** @constant */
+                    repoType: "dataset";
+                    downloads: number;
+                    gated: false | ("auto" | "manual");
+                    /** Format: date-time */
+                    lastModified: string;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    /** @constant */
+                    type: "dataset";
+                  }
+                | {
+                    author: string;
+                    downloads: number;
+                    id: string;
+                    availableInferenceProviders: {
+                      /** @enum {unknown} */
+                      provider:
+                        | "black-forest-labs"
+                        | "cerebras"
+                        | "cohere"
+                        | "fal-ai"
+                        | "featherless-ai"
+                        | "fireworks-ai"
+                        | "groq"
+                        | "hf-inference"
+                        | "hyperbolic"
+                        | "nebius"
+                        | "novita"
+                        | "nscale"
+                        | "openai"
+                        | "ovhcloud"
+                        | "replicate"
+                        | "sambanova"
+                        | "together";
+                      /** @enum {unknown} */
+                      providerStatus: "live" | "staging" | "error";
+                      /** @enum {unknown} */
+                      modelStatus: "live" | "staging" | "error";
+                      providerId: string;
+                      /** @enum {unknown} */
+                      task:
+                        | "text-classification"
+                        | "token-classification"
+                        | "table-question-answering"
+                        | "question-answering"
+                        | "zero-shot-classification"
+                        | "translation"
+                        | "summarization"
+                        | "feature-extraction"
+                        | "text-generation"
+                        | "text2text-generation"
+                        | "fill-mask"
+                        | "sentence-similarity"
+                        | "text-to-speech"
+                        | "text-to-audio"
+                        | "automatic-speech-recognition"
+                        | "audio-to-audio"
+                        | "audio-classification"
+                        | "audio-text-to-text"
+                        | "voice-activity-detection"
+                        | "depth-estimation"
+                        | "image-classification"
+                        | "object-detection"
+                        | "image-segmentation"
+                        | "text-to-image"
+                        | "image-to-text"
+                        | "image-to-image"
+                        | "image-to-video"
+                        | "unconditional-image-generation"
+                        | "video-classification"
+                        | "reinforcement-learning"
+                        | "robotics"
+                        | "tabular-classification"
+                        | "tabular-regression"
+                        | "tabular-to-text"
+                        | "table-to-text"
+                        | "multiple-choice"
+                        | "text-ranking"
+                        | "text-retrieval"
+                        | "time-series-forecasting"
+                        | "text-to-video"
+                        | "image-text-to-text"
+                        | "visual-question-answering"
+                        | "document-question-answering"
+                        | "zero-shot-image-classification"
+                        | "graph-ml"
+                        | "mask-generation"
+                        | "zero-shot-object-detection"
+                        | "text-to-3d"
+                        | "image-to-3d"
+                        | "image-feature-extraction"
+                        | "video-text-to-text"
+                        | "keypoint-detection"
+                        | "visual-document-retrieval"
+                        | "any-to-any"
+                        | "video-to-video"
+                        | "other"
+                        | "conversational";
+                      /** @constant */
+                      adapterType?: "lora";
+                      adapterWeightsPath?: string;
+                    }[];
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pipeline_tag?: string;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "model";
+                    gated: false | ("auto" | "manual");
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    numParameters?: number;
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    widgetOutputUrls?: string[];
+                    /** @constant */
+                    type: "model";
+                  }
+                | {
+                    author: string;
+                    colorFrom: string;
+                    colorTo: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    emoji: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pinned: boolean;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "space";
+                    title: string;
+                    /** @enum {unknown} */
+                    sdk?: "gradio" | "docker" | "static" | "streamlit";
+                    runtime: {
+                      /** @enum {unknown} */
+                      stage:
+                        | "NO_APP_FILE"
+                        | "CONFIG_ERROR"
+                        | "BUILDING"
+                        | "BUILD_ERROR"
+                        | "APP_STARTING"
+                        | "RUNNING"
+                        | "RUNNING_BUILDING"
+                        | "RUNNING_APP_STARTING"
+                        | "RUNTIME_ERROR"
+                        | "DELETING"
+                        | "STOPPED"
+                        | "PAUSED"
+                        | "SLEEPING";
+                      hardware: {
+                        current:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                        requested:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                      };
+                      storage: ("small" | "medium" | "large") | null;
+                      errorMessage?: string;
+                      gcTimeout?: number | null;
+                      replicas: {
+                        current?: number | null;
+                        requested: number | "auto";
+                      };
+                      devMode?: boolean;
+                      domains?: {
+                        domain: string;
+                        isCustom?: boolean | null;
+                        /** @enum {unknown} */
+                        stage: "READY" | "PENDING";
+                      }[];
+                      sha?: string;
+                    };
+                    originSpace?: {
+                      author:
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "user";
+                            isPro: boolean;
+                            _id: string;
+                            isUserFollowing?: boolean;
+                          };
+                      name: string;
+                    };
+                    ai_short_description?: string;
+                    ai_category?: string;
+                    trendingScore?: number;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    tags: string[];
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    shortDescription?: string;
+                    semanticRelevancyScore?: number;
+                    /** @constant */
+                    type: "space";
+                  }
+                | {
+                    id: string;
+                    title: string;
+                    upvotes: number;
+                    /** Format: date-time */
+                    publishedAt: string;
+                    thumbnailUrl?: string;
+                    isUpvotedByUser?: boolean;
+                    /** @constant */
+                    type: "paper";
+                  }
+                | {
+                    slug: string;
+                    /** Format: date-time */
+                    lastUpdated: string;
+                    description?: string;
+                    owner:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    title: string;
+                    /** @enum {unknown} */
+                    theme:
+                      | "orange"
+                      | "blue"
+                      | "green"
+                      | "purple"
+                      | "pink"
+                      | "indigo";
+                    upvotes: number;
+                    isUpvotedByUser: boolean;
+                    id: string;
+                    numberItems: number;
+                    /** @constant */
+                    type: "collection";
+                  }
+              ))[];
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/collections/{namespace}/{slug}-{id}/items/batch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Batch update items in a collection
+     * @description Batch update items in a collection
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            /** @enum {unknown} */
+            action: "update";
+            _id: string;
+            data: {
+              gallery?: string[];
+              note?: string;
+              position?: number;
+            };
+          }[];
+        };
+      };
+      responses: never;
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/collections/{namespace}/{slug}-{id}/items/{itemId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Delete an item from a collection
+     * @description Delete an item from a collection
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          slug: string;
+          id: string;
+          itemId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/collections": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get collections */
+    get: {
+      parameters: {
+        query?: {
+          item?: string[] | string;
+          owner?: string[] | string;
+          q?: string;
+          sort?: "upvotes" | "lastModified" | "trending";
+          cursor?: string;
+          expand?: unknown;
+          limit?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The collection data */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json":
+              | {
+                  slug: string;
+                  title: string;
+                  description?: string;
+                  /** Format: date-time */
+                  lastUpdated: string;
+                  gating:
+                    | true
+                    | (
+                        | false
+                        | {
                             /** @constant */
                             mode: "auto";
-                        } | {
+                          }
+                        | {
                             /** @constant */
                             mode: "manual";
                             notifications: {
-                                /** @enum {unknown} */
-                                mode: "bulk" | "real-time";
-                                email?: string;
+                              /** @enum {unknown} */
+                              mode: "bulk" | "real-time";
+                              email?: string;
                             };
-                        };
-                    };
-                };
-            };
-            responses: {
-                /** @description The updated collection */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            data: {
-                                slug: string;
-                                title: string;
-                                description?: string;
-                                /** Format: date-time */
-                                lastUpdated: string;
-                                gating: true | (false | {
-                                    /** @constant */
-                                    mode: "auto";
-                                } | {
-                                    /** @constant */
-                                    mode: "manual";
-                                    notifications: {
-                                        /** @enum {unknown} */
-                                        mode: "bulk" | "real-time";
-                                        email?: string;
-                                    };
-                                });
-                                owner: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                position: number;
-                                /** @enum {unknown} */
-                                theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                private: boolean;
-                                upvotes: number;
-                                shareUrl: string;
-                                isUpvotedByUser: boolean;
-                                items: ({
-                                    _id: string;
-                                    note?: {
-                                        html: string;
-                                        text: string;
-                                    };
-                                    gallery?: string[];
-                                    position: number;
-                                } & ({
-                                    author: string;
-                                    id: string;
-                                    isLikedByUser: boolean;
-                                    likes: number;
-                                    datasetsServerInfo?: {
-                                        /** @enum {unknown} */
-                                        viewer: "preview" | "viewer-partial" | "viewer";
-                                        numRows: number | null;
-                                        libraries: ("mlcroissant" | "webdataset" | "datasets" | "pandas" | "dask" | "distilabel" | "fiftyone" | "argilla" | "polars" | "duckdb")[];
-                                        formats: ("json" | "csv" | "parquet" | "imagefolder" | "audiofolder" | "webdataset" | "text" | "arrow")[];
-                                        modalities: ("3d" | "audio" | "document" | "geospatial" | "image" | "tabular" | "text" | "timeseries" | "video")[];
-                                    };
-                                    private: boolean;
-                                    /** @constant */
-                                    repoType: "dataset";
-                                    downloads: number;
-                                    gated: false | ("auto" | "manual");
-                                    /** Format: date-time */
-                                    lastModified: string;
-                                    resourceGroup?: {
-                                        id: string;
-                                        name: string;
-                                        numUsers: number;
-                                    };
-                                    /** @constant */
-                                    type: "dataset";
-                                } | {
-                                    author: string;
-                                    downloads: number;
-                                    id: string;
-                                    availableInferenceProviders: {
-                                        /** @enum {unknown} */
-                                        provider: "black-forest-labs" | "cerebras" | "cohere" | "fal-ai" | "featherless-ai" | "fireworks-ai" | "groq" | "hf-inference" | "hyperbolic" | "nebius" | "novita" | "nscale" | "openai" | "ovhcloud" | "replicate" | "sambanova" | "together";
-                                        /** @enum {unknown} */
-                                        providerStatus: "live" | "staging" | "error";
-                                        /** @enum {unknown} */
-                                        modelStatus: "live" | "staging" | "error";
-                                        providerId: string;
-                                        /** @enum {unknown} */
-                                        task: "text-classification" | "token-classification" | "table-question-answering" | "question-answering" | "zero-shot-classification" | "translation" | "summarization" | "feature-extraction" | "text-generation" | "text2text-generation" | "fill-mask" | "sentence-similarity" | "text-to-speech" | "text-to-audio" | "automatic-speech-recognition" | "audio-to-audio" | "audio-classification" | "audio-text-to-text" | "voice-activity-detection" | "depth-estimation" | "image-classification" | "object-detection" | "image-segmentation" | "text-to-image" | "image-to-text" | "image-to-image" | "image-to-video" | "unconditional-image-generation" | "video-classification" | "reinforcement-learning" | "robotics" | "tabular-classification" | "tabular-regression" | "tabular-to-text" | "table-to-text" | "multiple-choice" | "text-ranking" | "text-retrieval" | "time-series-forecasting" | "text-to-video" | "image-text-to-text" | "visual-question-answering" | "document-question-answering" | "zero-shot-image-classification" | "graph-ml" | "mask-generation" | "zero-shot-object-detection" | "text-to-3d" | "image-to-3d" | "image-feature-extraction" | "video-text-to-text" | "keypoint-detection" | "visual-document-retrieval" | "any-to-any" | "video-to-video" | "other" | "conversational";
-                                        /** @constant */
-                                        adapterType?: "lora";
-                                        adapterWeightsPath?: string;
-                                    }[];
-                                    isLikedByUser: boolean;
-                                    /** Format: date-time */
-                                    lastModified: string;
-                                    likes: number;
-                                    pipeline_tag?: string;
-                                    private: boolean;
-                                    /** @constant */
-                                    repoType: "model";
-                                    gated: false | ("auto" | "manual");
-                                    resourceGroup?: {
-                                        id: string;
-                                        name: string;
-                                        numUsers: number;
-                                    };
-                                    numParameters?: number;
-                                    authorData?: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    widgetOutputUrls?: string[];
-                                    /** @constant */
-                                    type: "model";
-                                } | {
-                                    author: string;
-                                    colorFrom: string;
-                                    colorTo: string;
-                                    /** Format: date-time */
-                                    createdAt: string;
-                                    emoji: string;
-                                    id: string;
-                                    isLikedByUser: boolean;
-                                    /** Format: date-time */
-                                    lastModified: string;
-                                    likes: number;
-                                    pinned: boolean;
-                                    private: boolean;
-                                    /** @constant */
-                                    repoType: "space";
-                                    title: string;
-                                    /** @enum {unknown} */
-                                    sdk?: "gradio" | "docker" | "static" | "streamlit";
-                                    runtime: {
-                                        /** @enum {unknown} */
-                                        stage: "NO_APP_FILE" | "CONFIG_ERROR" | "BUILDING" | "BUILD_ERROR" | "APP_STARTING" | "RUNNING" | "RUNNING_BUILDING" | "RUNNING_APP_STARTING" | "RUNTIME_ERROR" | "DELETING" | "STOPPED" | "PAUSED" | "SLEEPING";
-                                        hardware: {
-                                            current: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                            requested: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                        };
-                                        storage: ("small" | "medium" | "large") | null;
-                                        errorMessage?: string;
-                                        gcTimeout?: number | null;
-                                        replicas: {
-                                            current?: number | null;
-                                            requested: number | "auto";
-                                        };
-                                        devMode?: boolean;
-                                        domains?: {
-                                            domain: string;
-                                            isCustom?: boolean | null;
-                                            /** @enum {unknown} */
-                                            stage: "READY" | "PENDING";
-                                        }[];
-                                        sha?: string;
-                                    };
-                                    originSpace?: {
-                                        author: {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "org";
-                                            isEnterprise: boolean;
-                                            isUserFollowing?: boolean;
-                                        } | {
-                                            avatarUrl: string;
-                                            fullname: string;
-                                            name: string;
-                                            isHf: boolean;
-                                            isHfAdmin: boolean;
-                                            isMod: boolean;
-                                            followerCount?: number;
-                                            /** @constant */
-                                            type: "user";
-                                            isPro: boolean;
-                                            _id: string;
-                                            isUserFollowing?: boolean;
-                                        };
-                                        name: string;
-                                    };
-                                    ai_short_description?: string;
-                                    ai_category?: string;
-                                    trendingScore?: number;
-                                    resourceGroup?: {
-                                        id: string;
-                                        name: string;
-                                        numUsers: number;
-                                    };
-                                    tags: string[];
-                                    authorData?: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    shortDescription?: string;
-                                    semanticRelevancyScore?: number;
-                                    /** @constant */
-                                    type: "space";
-                                } | {
-                                    id: string;
-                                    title: string;
-                                    upvotes: number;
-                                    /** Format: date-time */
-                                    publishedAt: string;
-                                    thumbnailUrl?: string;
-                                    isUpvotedByUser?: boolean;
-                                    /** @constant */
-                                    type: "paper";
-                                } | {
-                                    slug: string;
-                                    /** Format: date-time */
-                                    lastUpdated: string;
-                                    description?: string;
-                                    owner: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    title: string;
-                                    /** @enum {unknown} */
-                                    theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                    upvotes: number;
-                                    isUpvotedByUser: boolean;
-                                    id: string;
-                                    numberItems: number;
-                                    /** @constant */
-                                    type: "collection";
-                                }))[];
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
-    "/api/collections/{namespace}/{slug}-{id}/items": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Add an item to a collection
-         * @description Add an item to a collection
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        item: {
-                            /** @enum {unknown} */
-                            type: "paper" | "collection" | "space" | "model" | "dataset";
-                            id: string;
-                        };
-                        note?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description The updated collection */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            slug: string;
-                            title: string;
-                            description?: string;
-                            /** Format: date-time */
-                            lastUpdated: string;
-                            gating: true | (false | {
-                                /** @constant */
-                                mode: "auto";
-                            } | {
-                                /** @constant */
-                                mode: "manual";
-                                notifications: {
-                                    /** @enum {unknown} */
-                                    mode: "bulk" | "real-time";
-                                    email?: string;
-                                };
-                            });
-                            owner: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "org";
-                                isEnterprise: boolean;
-                                isUserFollowing?: boolean;
-                            } | {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            position: number;
-                            /** @enum {unknown} */
-                            theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                            private: boolean;
-                            upvotes: number;
-                            shareUrl: string;
-                            isUpvotedByUser: boolean;
-                            items: ({
-                                _id: string;
-                                note?: {
-                                    html: string;
-                                    text: string;
-                                };
-                                gallery?: string[];
-                                position: number;
-                            } & ({
-                                author: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                likes: number;
-                                datasetsServerInfo?: {
-                                    /** @enum {unknown} */
-                                    viewer: "preview" | "viewer-partial" | "viewer";
-                                    numRows: number | null;
-                                    libraries: ("mlcroissant" | "webdataset" | "datasets" | "pandas" | "dask" | "distilabel" | "fiftyone" | "argilla" | "polars" | "duckdb")[];
-                                    formats: ("json" | "csv" | "parquet" | "imagefolder" | "audiofolder" | "webdataset" | "text" | "arrow")[];
-                                    modalities: ("3d" | "audio" | "document" | "geospatial" | "image" | "tabular" | "text" | "timeseries" | "video")[];
-                                };
-                                private: boolean;
-                                /** @constant */
-                                repoType: "dataset";
-                                downloads: number;
-                                gated: false | ("auto" | "manual");
-                                /** Format: date-time */
-                                lastModified: string;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                /** @constant */
-                                type: "dataset";
-                            } | {
-                                author: string;
-                                downloads: number;
-                                id: string;
-                                availableInferenceProviders: {
-                                    /** @enum {unknown} */
-                                    provider: "black-forest-labs" | "cerebras" | "cohere" | "fal-ai" | "featherless-ai" | "fireworks-ai" | "groq" | "hf-inference" | "hyperbolic" | "nebius" | "novita" | "nscale" | "openai" | "ovhcloud" | "replicate" | "sambanova" | "together";
-                                    /** @enum {unknown} */
-                                    providerStatus: "live" | "staging" | "error";
-                                    /** @enum {unknown} */
-                                    modelStatus: "live" | "staging" | "error";
-                                    providerId: string;
-                                    /** @enum {unknown} */
-                                    task: "text-classification" | "token-classification" | "table-question-answering" | "question-answering" | "zero-shot-classification" | "translation" | "summarization" | "feature-extraction" | "text-generation" | "text2text-generation" | "fill-mask" | "sentence-similarity" | "text-to-speech" | "text-to-audio" | "automatic-speech-recognition" | "audio-to-audio" | "audio-classification" | "audio-text-to-text" | "voice-activity-detection" | "depth-estimation" | "image-classification" | "object-detection" | "image-segmentation" | "text-to-image" | "image-to-text" | "image-to-image" | "image-to-video" | "unconditional-image-generation" | "video-classification" | "reinforcement-learning" | "robotics" | "tabular-classification" | "tabular-regression" | "tabular-to-text" | "table-to-text" | "multiple-choice" | "text-ranking" | "text-retrieval" | "time-series-forecasting" | "text-to-video" | "image-text-to-text" | "visual-question-answering" | "document-question-answering" | "zero-shot-image-classification" | "graph-ml" | "mask-generation" | "zero-shot-object-detection" | "text-to-3d" | "image-to-3d" | "image-feature-extraction" | "video-text-to-text" | "keypoint-detection" | "visual-document-retrieval" | "any-to-any" | "video-to-video" | "other" | "conversational";
-                                    /** @constant */
-                                    adapterType?: "lora";
-                                    adapterWeightsPath?: string;
-                                }[];
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pipeline_tag?: string;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "model";
-                                gated: false | ("auto" | "manual");
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                numParameters?: number;
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                widgetOutputUrls?: string[];
-                                /** @constant */
-                                type: "model";
-                            } | {
-                                author: string;
-                                colorFrom: string;
-                                colorTo: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                emoji: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pinned: boolean;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "space";
-                                title: string;
-                                /** @enum {unknown} */
-                                sdk?: "gradio" | "docker" | "static" | "streamlit";
-                                runtime: {
-                                    /** @enum {unknown} */
-                                    stage: "NO_APP_FILE" | "CONFIG_ERROR" | "BUILDING" | "BUILD_ERROR" | "APP_STARTING" | "RUNNING" | "RUNNING_BUILDING" | "RUNNING_APP_STARTING" | "RUNTIME_ERROR" | "DELETING" | "STOPPED" | "PAUSED" | "SLEEPING";
-                                    hardware: {
-                                        current: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                        requested: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                    };
-                                    storage: ("small" | "medium" | "large") | null;
-                                    errorMessage?: string;
-                                    gcTimeout?: number | null;
-                                    replicas: {
-                                        current?: number | null;
-                                        requested: number | "auto";
-                                    };
-                                    devMode?: boolean;
-                                    domains?: {
-                                        domain: string;
-                                        isCustom?: boolean | null;
-                                        /** @enum {unknown} */
-                                        stage: "READY" | "PENDING";
-                                    }[];
-                                    sha?: string;
-                                };
-                                originSpace?: {
-                                    author: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    name: string;
-                                };
-                                ai_short_description?: string;
-                                ai_category?: string;
-                                trendingScore?: number;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                tags: string[];
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                shortDescription?: string;
-                                semanticRelevancyScore?: number;
-                                /** @constant */
-                                type: "space";
-                            } | {
-                                id: string;
-                                title: string;
-                                upvotes: number;
-                                /** Format: date-time */
-                                publishedAt: string;
-                                thumbnailUrl?: string;
-                                isUpvotedByUser?: boolean;
-                                /** @constant */
-                                type: "paper";
-                            } | {
-                                slug: string;
-                                /** Format: date-time */
-                                lastUpdated: string;
-                                description?: string;
-                                owner: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                title: string;
-                                /** @enum {unknown} */
-                                theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                upvotes: number;
-                                isUpvotedByUser: boolean;
-                                id: string;
-                                numberItems: number;
-                                /** @constant */
-                                type: "collection";
-                            }))[];
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/collections/{namespace}/{slug}-{id}/items/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Batch update items in a collection
-         * @description Batch update items in a collection
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** @enum {unknown} */
-                        action: "update";
+                          }
+                      );
+                  owner:
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
+                        name: string;
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "org";
+                        isEnterprise: boolean;
+                        isUserFollowing?: boolean;
+                      }
+                    | {
+                        avatarUrl: string;
+                        fullname: string;
+                        name: string;
+                        isHf: boolean;
+                        isHfAdmin: boolean;
+                        isMod: boolean;
+                        followerCount?: number;
+                        /** @constant */
+                        type: "user";
+                        isPro: boolean;
                         _id: string;
-                        data: {
-                            gallery?: string[];
-                            note?: string;
-                            position?: number;
-                        };
-                    }[];
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/collections/{namespace}/{slug}-{id}/items/{itemId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Delete an item from a collection
-         * @description Delete an item from a collection
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    slug: string;
-                    id: string;
-                    itemId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/collections": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get collections */
-        get: {
-            parameters: {
-                query?: {
-                    item?: string[] | string;
-                    owner?: string[] | string;
-                    q?: string;
-                    sort?: "upvotes" | "lastModified" | "trending";
-                    cursor?: string;
-                    expand?: unknown;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The collection data */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+                        isUserFollowing?: boolean;
+                      };
+                  /** @enum {unknown} */
+                  theme:
+                    | "orange"
+                    | "blue"
+                    | "green"
+                    | "purple"
+                    | "pink"
+                    | "indigo";
+                  private: boolean;
+                  upvotes: number;
+                  isUpvotedByUser: boolean;
+                  items: ({
+                    _id: string;
+                    note?: {
+                      html: string;
+                      text: string;
                     };
-                    content: {
-                        "application/json": {
-                            slug: string;
-                            title: string;
-                            description?: string;
-                            /** Format: date-time */
-                            lastUpdated: string;
-                            gating: true | (false | {
-                                /** @constant */
-                                mode: "auto";
-                            } | {
-                                /** @constant */
-                                mode: "manual";
-                                notifications: {
-                                    /** @enum {unknown} */
-                                    mode: "bulk" | "real-time";
-                                    email?: string;
-                                };
-                            });
-                            owner: {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "org";
-                                isEnterprise: boolean;
-                                isUserFollowing?: boolean;
-                            } | {
-                                avatarUrl: string;
-                                fullname: string;
-                                name: string;
-                                isHf: boolean;
-                                isHfAdmin: boolean;
-                                isMod: boolean;
-                                followerCount?: number;
-                                /** @constant */
-                                type: "user";
-                                isPro: boolean;
-                                _id: string;
-                                isUserFollowing?: boolean;
-                            };
-                            /** @enum {unknown} */
-                            theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                            private: boolean;
-                            upvotes: number;
-                            isUpvotedByUser: boolean;
-                            items: ({
-                                _id: string;
-                                note?: {
-                                    html: string;
-                                    text: string;
-                                };
-                                gallery?: string[];
-                                position: number;
-                            } & ({
-                                author: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                likes: number;
-                                datasetsServerInfo?: {
-                                    /** @enum {unknown} */
-                                    viewer: "preview" | "viewer-partial" | "viewer";
-                                    numRows: number | null;
-                                    libraries: ("mlcroissant" | "webdataset" | "datasets" | "pandas" | "dask" | "distilabel" | "fiftyone" | "argilla" | "polars" | "duckdb")[];
-                                    formats: ("json" | "csv" | "parquet" | "imagefolder" | "audiofolder" | "webdataset" | "text" | "arrow")[];
-                                    modalities: ("3d" | "audio" | "document" | "geospatial" | "image" | "tabular" | "text" | "timeseries" | "video")[];
-                                };
-                                private: boolean;
-                                /** @constant */
-                                repoType: "dataset";
-                                downloads: number;
-                                gated: false | ("auto" | "manual");
-                                /** Format: date-time */
-                                lastModified: string;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                /** @constant */
-                                type: "dataset";
-                            } | {
-                                author: string;
-                                downloads: number;
-                                id: string;
-                                availableInferenceProviders: {
-                                    /** @enum {unknown} */
-                                    provider: "black-forest-labs" | "cerebras" | "cohere" | "fal-ai" | "featherless-ai" | "fireworks-ai" | "groq" | "hf-inference" | "hyperbolic" | "nebius" | "novita" | "nscale" | "openai" | "ovhcloud" | "replicate" | "sambanova" | "together";
-                                    /** @enum {unknown} */
-                                    providerStatus: "live" | "staging" | "error";
-                                    /** @enum {unknown} */
-                                    modelStatus: "live" | "staging" | "error";
-                                    providerId: string;
-                                    /** @enum {unknown} */
-                                    task: "text-classification" | "token-classification" | "table-question-answering" | "question-answering" | "zero-shot-classification" | "translation" | "summarization" | "feature-extraction" | "text-generation" | "text2text-generation" | "fill-mask" | "sentence-similarity" | "text-to-speech" | "text-to-audio" | "automatic-speech-recognition" | "audio-to-audio" | "audio-classification" | "audio-text-to-text" | "voice-activity-detection" | "depth-estimation" | "image-classification" | "object-detection" | "image-segmentation" | "text-to-image" | "image-to-text" | "image-to-image" | "image-to-video" | "unconditional-image-generation" | "video-classification" | "reinforcement-learning" | "robotics" | "tabular-classification" | "tabular-regression" | "tabular-to-text" | "table-to-text" | "multiple-choice" | "text-ranking" | "text-retrieval" | "time-series-forecasting" | "text-to-video" | "image-text-to-text" | "visual-question-answering" | "document-question-answering" | "zero-shot-image-classification" | "graph-ml" | "mask-generation" | "zero-shot-object-detection" | "text-to-3d" | "image-to-3d" | "image-feature-extraction" | "video-text-to-text" | "keypoint-detection" | "visual-document-retrieval" | "any-to-any" | "video-to-video" | "other" | "conversational";
-                                    /** @constant */
-                                    adapterType?: "lora";
-                                    adapterWeightsPath?: string;
-                                }[];
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pipeline_tag?: string;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "model";
-                                gated: false | ("auto" | "manual");
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                numParameters?: number;
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                widgetOutputUrls?: string[];
-                                /** @constant */
-                                type: "model";
-                            } | {
-                                author: string;
-                                colorFrom: string;
-                                colorTo: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                emoji: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pinned: boolean;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "space";
-                                title: string;
-                                /** @enum {unknown} */
-                                sdk?: "gradio" | "docker" | "static" | "streamlit";
-                                runtime: {
-                                    /** @enum {unknown} */
-                                    stage: "NO_APP_FILE" | "CONFIG_ERROR" | "BUILDING" | "BUILD_ERROR" | "APP_STARTING" | "RUNNING" | "RUNNING_BUILDING" | "RUNNING_APP_STARTING" | "RUNTIME_ERROR" | "DELETING" | "STOPPED" | "PAUSED" | "SLEEPING";
-                                    hardware: {
-                                        current: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                        requested: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                    };
-                                    storage: ("small" | "medium" | "large") | null;
-                                    errorMessage?: string;
-                                    gcTimeout?: number | null;
-                                    replicas: {
-                                        current?: number | null;
-                                        requested: number | "auto";
-                                    };
-                                    devMode?: boolean;
-                                    domains?: {
-                                        domain: string;
-                                        isCustom?: boolean | null;
-                                        /** @enum {unknown} */
-                                        stage: "READY" | "PENDING";
-                                    }[];
-                                    sha?: string;
-                                };
-                                originSpace?: {
-                                    author: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    name: string;
-                                };
-                                ai_short_description?: string;
-                                ai_category?: string;
-                                trendingScore?: number;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                tags: string[];
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                shortDescription?: string;
-                                semanticRelevancyScore?: number;
-                                /** @constant */
-                                type: "space";
-                            } | {
-                                id: string;
-                                title: string;
-                                upvotes: number;
-                                /** Format: date-time */
-                                publishedAt: string;
-                                thumbnailUrl?: string;
-                                isUpvotedByUser?: boolean;
-                                /** @constant */
-                                type: "paper";
-                            } | {
-                                slug: string;
-                                /** Format: date-time */
-                                lastUpdated: string;
-                                description?: string;
-                                owner: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                title: string;
-                                /** @enum {unknown} */
-                                theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                upvotes: number;
-                                isUpvotedByUser: boolean;
-                                id: string;
-                                numberItems: number;
-                                /** @constant */
-                                type: "collection";
-                            }))[];
-                        }[] | {
-                            title: string;
-                            private: boolean;
-                            upvotes: number;
-                            name: string;
+                    gallery?: string[];
+                    position: number;
+                  } & (
+                    | {
+                        author: string;
+                        id: string;
+                        isLikedByUser: boolean;
+                        likes: number;
+                        datasetsServerInfo?: {
+                          /** @enum {unknown} */
+                          viewer: "preview" | "viewer-partial" | "viewer";
+                          numRows: number | null;
+                          libraries: (
+                            | "mlcroissant"
+                            | "webdataset"
+                            | "datasets"
+                            | "pandas"
+                            | "dask"
+                            | "distilabel"
+                            | "fiftyone"
+                            | "argilla"
+                            | "polars"
+                            | "duckdb"
+                          )[];
+                          formats: (
+                            | "json"
+                            | "csv"
+                            | "parquet"
+                            | "imagefolder"
+                            | "audiofolder"
+                            | "webdataset"
+                            | "text"
+                            | "arrow"
+                          )[];
+                          modalities: (
+                            | "3d"
+                            | "audio"
+                            | "document"
+                            | "geospatial"
+                            | "image"
+                            | "tabular"
+                            | "text"
+                            | "timeseries"
+                            | "video"
+                          )[];
+                        };
+                        private: boolean;
+                        /** @constant */
+                        repoType: "dataset";
+                        downloads: number;
+                        gated: false | ("auto" | "manual");
+                        /** Format: date-time */
+                        lastModified: string;
+                        resourceGroup?: {
+                          id: string;
+                          name: string;
+                          numUsers: number;
+                        };
+                        /** @constant */
+                        type: "dataset";
+                      }
+                    | {
+                        author: string;
+                        downloads: number;
+                        id: string;
+                        availableInferenceProviders: {
+                          /** @enum {unknown} */
+                          provider:
+                            | "black-forest-labs"
+                            | "cerebras"
+                            | "cohere"
+                            | "fal-ai"
+                            | "featherless-ai"
+                            | "fireworks-ai"
+                            | "groq"
+                            | "hf-inference"
+                            | "hyperbolic"
+                            | "nebius"
+                            | "novita"
+                            | "nscale"
+                            | "openai"
+                            | "ovhcloud"
+                            | "replicate"
+                            | "sambanova"
+                            | "together";
+                          /** @enum {unknown} */
+                          providerStatus: "live" | "staging" | "error";
+                          /** @enum {unknown} */
+                          modelStatus: "live" | "staging" | "error";
+                          providerId: string;
+                          /** @enum {unknown} */
+                          task:
+                            | "text-classification"
+                            | "token-classification"
+                            | "table-question-answering"
+                            | "question-answering"
+                            | "zero-shot-classification"
+                            | "translation"
+                            | "summarization"
+                            | "feature-extraction"
+                            | "text-generation"
+                            | "text2text-generation"
+                            | "fill-mask"
+                            | "sentence-similarity"
+                            | "text-to-speech"
+                            | "text-to-audio"
+                            | "automatic-speech-recognition"
+                            | "audio-to-audio"
+                            | "audio-classification"
+                            | "audio-text-to-text"
+                            | "voice-activity-detection"
+                            | "depth-estimation"
+                            | "image-classification"
+                            | "object-detection"
+                            | "image-segmentation"
+                            | "text-to-image"
+                            | "image-to-text"
+                            | "image-to-image"
+                            | "image-to-video"
+                            | "unconditional-image-generation"
+                            | "video-classification"
+                            | "reinforcement-learning"
+                            | "robotics"
+                            | "tabular-classification"
+                            | "tabular-regression"
+                            | "tabular-to-text"
+                            | "table-to-text"
+                            | "multiple-choice"
+                            | "text-ranking"
+                            | "text-retrieval"
+                            | "time-series-forecasting"
+                            | "text-to-video"
+                            | "image-text-to-text"
+                            | "visual-question-answering"
+                            | "document-question-answering"
+                            | "zero-shot-image-classification"
+                            | "graph-ml"
+                            | "mask-generation"
+                            | "zero-shot-object-detection"
+                            | "text-to-3d"
+                            | "image-to-3d"
+                            | "image-feature-extraction"
+                            | "video-text-to-text"
+                            | "keypoint-detection"
+                            | "visual-document-retrieval"
+                            | "any-to-any"
+                            | "video-to-video"
+                            | "other"
+                            | "conversational";
+                          /** @constant */
+                          adapterType?: "lora";
+                          adapterWeightsPath?: string;
                         }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Create a collection */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        title: string;
-                        description?: string;
-                        namespace: string;
-                        item?: {
-                            /** @enum {unknown} */
-                            type: "paper" | "collection" | "space" | "model" | "dataset";
-                            id: string;
+                        isLikedByUser: boolean;
+                        /** Format: date-time */
+                        lastModified: string;
+                        likes: number;
+                        pipeline_tag?: string;
+                        private: boolean;
+                        /** @constant */
+                        repoType: "model";
+                        gated: false | ("auto" | "manual");
+                        resourceGroup?: {
+                          id: string;
+                          name: string;
+                          numUsers: number;
                         };
-                        /** @default false */
-                        private?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description The created collection */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            slug: string;
-                            title: string;
-                            description?: string;
-                            /** Format: date-time */
-                            lastUpdated: string;
-                            gating: true | (false | {
-                                /** @constant */
-                                mode: "auto";
-                            } | {
-                                /** @constant */
-                                mode: "manual";
-                                notifications: {
-                                    /** @enum {unknown} */
-                                    mode: "bulk" | "real-time";
-                                    email?: string;
-                                };
-                            });
-                            owner: {
+                        numParameters?: number;
+                        authorData?:
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            };
+                        widgetOutputUrls?: string[];
+                        /** @constant */
+                        type: "model";
+                      }
+                    | {
+                        author: string;
+                        colorFrom: string;
+                        colorTo: string;
+                        /** Format: date-time */
+                        createdAt: string;
+                        emoji: string;
+                        id: string;
+                        isLikedByUser: boolean;
+                        /** Format: date-time */
+                        lastModified: string;
+                        likes: number;
+                        pinned: boolean;
+                        private: boolean;
+                        /** @constant */
+                        repoType: "space";
+                        title: string;
+                        /** @enum {unknown} */
+                        sdk?: "gradio" | "docker" | "static" | "streamlit";
+                        runtime: {
+                          /** @enum {unknown} */
+                          stage:
+                            | "NO_APP_FILE"
+                            | "CONFIG_ERROR"
+                            | "BUILDING"
+                            | "BUILD_ERROR"
+                            | "APP_STARTING"
+                            | "RUNNING"
+                            | "RUNNING_BUILDING"
+                            | "RUNNING_APP_STARTING"
+                            | "RUNTIME_ERROR"
+                            | "DELETING"
+                            | "STOPPED"
+                            | "PAUSED"
+                            | "SLEEPING";
+                          hardware: {
+                            current:
+                              | (
+                                  | "cpu-basic"
+                                  | "cpu-upgrade"
+                                  | "cpu-performance"
+                                  | "cpu-xl"
+                                  | "zero-a10g"
+                                  | "t4-small"
+                                  | "t4-medium"
+                                  | "l4x1"
+                                  | "l4x4"
+                                  | "l40sx1"
+                                  | "l40sx4"
+                                  | "l40sx8"
+                                  | "a10g-small"
+                                  | "a10g-large"
+                                  | "a10g-largex2"
+                                  | "a10g-largex4"
+                                  | "a100-large"
+                                  | "h100"
+                                  | "h100x8"
+                                )
+                              | null;
+                            requested:
+                              | (
+                                  | "cpu-basic"
+                                  | "cpu-upgrade"
+                                  | "cpu-performance"
+                                  | "cpu-xl"
+                                  | "zero-a10g"
+                                  | "t4-small"
+                                  | "t4-medium"
+                                  | "l4x1"
+                                  | "l4x4"
+                                  | "l40sx1"
+                                  | "l40sx4"
+                                  | "l40sx8"
+                                  | "a10g-small"
+                                  | "a10g-large"
+                                  | "a10g-largex2"
+                                  | "a10g-largex4"
+                                  | "a100-large"
+                                  | "h100"
+                                  | "h100x8"
+                                )
+                              | null;
+                          };
+                          storage: ("small" | "medium" | "large") | null;
+                          errorMessage?: string;
+                          gcTimeout?: number | null;
+                          replicas: {
+                            current?: number | null;
+                            requested: number | "auto";
+                          };
+                          devMode?: boolean;
+                          domains?: {
+                            domain: string;
+                            isCustom?: boolean | null;
+                            /** @enum {unknown} */
+                            stage: "READY" | "PENDING";
+                          }[];
+                          sha?: string;
+                        };
+                        originSpace?: {
+                          author:
+                            | {
                                 avatarUrl: string;
                                 fullname: string;
                                 name: string;
@@ -6152,7 +7539,8 @@ export interface paths {
                                 type: "org";
                                 isEnterprise: boolean;
                                 isUserFollowing?: boolean;
-                            } | {
+                              }
+                            | {
                                 avatarUrl: string;
                                 fullname: string;
                                 name: string;
@@ -6165,590 +7553,1009 @@ export interface paths {
                                 isPro: boolean;
                                 _id: string;
                                 isUserFollowing?: boolean;
+                              };
+                          name: string;
+                        };
+                        ai_short_description?: string;
+                        ai_category?: string;
+                        trendingScore?: number;
+                        resourceGroup?: {
+                          id: string;
+                          name: string;
+                          numUsers: number;
+                        };
+                        tags: string[];
+                        authorData?:
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
                             };
-                            position: number;
-                            /** @enum {unknown} */
-                            theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                            private: boolean;
-                            upvotes: number;
-                            shareUrl: string;
-                            isUpvotedByUser: boolean;
-                            items: ({
-                                _id: string;
-                                note?: {
-                                    html: string;
-                                    text: string;
-                                };
-                                gallery?: string[];
-                                position: number;
-                            } & ({
-                                author: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                likes: number;
-                                datasetsServerInfo?: {
-                                    /** @enum {unknown} */
-                                    viewer: "preview" | "viewer-partial" | "viewer";
-                                    numRows: number | null;
-                                    libraries: ("mlcroissant" | "webdataset" | "datasets" | "pandas" | "dask" | "distilabel" | "fiftyone" | "argilla" | "polars" | "duckdb")[];
-                                    formats: ("json" | "csv" | "parquet" | "imagefolder" | "audiofolder" | "webdataset" | "text" | "arrow")[];
-                                    modalities: ("3d" | "audio" | "document" | "geospatial" | "image" | "tabular" | "text" | "timeseries" | "video")[];
-                                };
-                                private: boolean;
-                                /** @constant */
-                                repoType: "dataset";
-                                downloads: number;
-                                gated: false | ("auto" | "manual");
-                                /** Format: date-time */
-                                lastModified: string;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                /** @constant */
-                                type: "dataset";
-                            } | {
-                                author: string;
-                                downloads: number;
-                                id: string;
-                                availableInferenceProviders: {
-                                    /** @enum {unknown} */
-                                    provider: "black-forest-labs" | "cerebras" | "cohere" | "fal-ai" | "featherless-ai" | "fireworks-ai" | "groq" | "hf-inference" | "hyperbolic" | "nebius" | "novita" | "nscale" | "openai" | "ovhcloud" | "replicate" | "sambanova" | "together";
-                                    /** @enum {unknown} */
-                                    providerStatus: "live" | "staging" | "error";
-                                    /** @enum {unknown} */
-                                    modelStatus: "live" | "staging" | "error";
-                                    providerId: string;
-                                    /** @enum {unknown} */
-                                    task: "text-classification" | "token-classification" | "table-question-answering" | "question-answering" | "zero-shot-classification" | "translation" | "summarization" | "feature-extraction" | "text-generation" | "text2text-generation" | "fill-mask" | "sentence-similarity" | "text-to-speech" | "text-to-audio" | "automatic-speech-recognition" | "audio-to-audio" | "audio-classification" | "audio-text-to-text" | "voice-activity-detection" | "depth-estimation" | "image-classification" | "object-detection" | "image-segmentation" | "text-to-image" | "image-to-text" | "image-to-image" | "image-to-video" | "unconditional-image-generation" | "video-classification" | "reinforcement-learning" | "robotics" | "tabular-classification" | "tabular-regression" | "tabular-to-text" | "table-to-text" | "multiple-choice" | "text-ranking" | "text-retrieval" | "time-series-forecasting" | "text-to-video" | "image-text-to-text" | "visual-question-answering" | "document-question-answering" | "zero-shot-image-classification" | "graph-ml" | "mask-generation" | "zero-shot-object-detection" | "text-to-3d" | "image-to-3d" | "image-feature-extraction" | "video-text-to-text" | "keypoint-detection" | "visual-document-retrieval" | "any-to-any" | "video-to-video" | "other" | "conversational";
-                                    /** @constant */
-                                    adapterType?: "lora";
-                                    adapterWeightsPath?: string;
-                                }[];
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pipeline_tag?: string;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "model";
-                                gated: false | ("auto" | "manual");
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                numParameters?: number;
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                widgetOutputUrls?: string[];
-                                /** @constant */
-                                type: "model";
-                            } | {
-                                author: string;
-                                colorFrom: string;
-                                colorTo: string;
-                                /** Format: date-time */
-                                createdAt: string;
-                                emoji: string;
-                                id: string;
-                                isLikedByUser: boolean;
-                                /** Format: date-time */
-                                lastModified: string;
-                                likes: number;
-                                pinned: boolean;
-                                private: boolean;
-                                /** @constant */
-                                repoType: "space";
-                                title: string;
-                                /** @enum {unknown} */
-                                sdk?: "gradio" | "docker" | "static" | "streamlit";
-                                runtime: {
-                                    /** @enum {unknown} */
-                                    stage: "NO_APP_FILE" | "CONFIG_ERROR" | "BUILDING" | "BUILD_ERROR" | "APP_STARTING" | "RUNNING" | "RUNNING_BUILDING" | "RUNNING_APP_STARTING" | "RUNTIME_ERROR" | "DELETING" | "STOPPED" | "PAUSED" | "SLEEPING";
-                                    hardware: {
-                                        current: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                        requested: ("cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8") | null;
-                                    };
-                                    storage: ("small" | "medium" | "large") | null;
-                                    errorMessage?: string;
-                                    gcTimeout?: number | null;
-                                    replicas: {
-                                        current?: number | null;
-                                        requested: number | "auto";
-                                    };
-                                    devMode?: boolean;
-                                    domains?: {
-                                        domain: string;
-                                        isCustom?: boolean | null;
-                                        /** @enum {unknown} */
-                                        stage: "READY" | "PENDING";
-                                    }[];
-                                    sha?: string;
-                                };
-                                originSpace?: {
-                                    author: {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "org";
-                                        isEnterprise: boolean;
-                                        isUserFollowing?: boolean;
-                                    } | {
-                                        avatarUrl: string;
-                                        fullname: string;
-                                        name: string;
-                                        isHf: boolean;
-                                        isHfAdmin: boolean;
-                                        isMod: boolean;
-                                        followerCount?: number;
-                                        /** @constant */
-                                        type: "user";
-                                        isPro: boolean;
-                                        _id: string;
-                                        isUserFollowing?: boolean;
-                                    };
-                                    name: string;
-                                };
-                                ai_short_description?: string;
-                                ai_category?: string;
-                                trendingScore?: number;
-                                resourceGroup?: {
-                                    id: string;
-                                    name: string;
-                                    numUsers: number;
-                                };
-                                tags: string[];
-                                authorData?: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                shortDescription?: string;
-                                semanticRelevancyScore?: number;
-                                /** @constant */
-                                type: "space";
-                            } | {
-                                id: string;
-                                title: string;
-                                upvotes: number;
-                                /** Format: date-time */
-                                publishedAt: string;
-                                thumbnailUrl?: string;
-                                isUpvotedByUser?: boolean;
-                                /** @constant */
-                                type: "paper";
-                            } | {
-                                slug: string;
-                                /** Format: date-time */
-                                lastUpdated: string;
-                                description?: string;
-                                owner: {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "org";
-                                    isEnterprise: boolean;
-                                    isUserFollowing?: boolean;
-                                } | {
-                                    avatarUrl: string;
-                                    fullname: string;
-                                    name: string;
-                                    isHf: boolean;
-                                    isHfAdmin: boolean;
-                                    isMod: boolean;
-                                    followerCount?: number;
-                                    /** @constant */
-                                    type: "user";
-                                    isPro: boolean;
-                                    _id: string;
-                                    isUserFollowing?: boolean;
-                                };
-                                title: string;
-                                /** @enum {unknown} */
-                                theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
-                                upvotes: number;
-                                isUpvotedByUser: boolean;
-                                id: string;
-                                numberItems: number;
-                                /** @constant */
-                                type: "collection";
-                            }))[];
-                        };
-                    };
-                };
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                            slug?: string;
-                        };
-                        description: unknown;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/jobs/{namespace}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List of jobs for an entity */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The list of jobs */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Job"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Start a job */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        spaceId?: string;
-                        dockerImage?: string;
-                        arguments?: string[];
-                        command?: string[];
-                        environment: {
-                            [key: string]: string;
-                        };
-                        secrets?: {
-                            [key: string]: string;
-                        };
+                        shortDescription?: string;
+                        semanticRelevancyScore?: number;
+                        /** @constant */
+                        type: "space";
+                      }
+                    | {
+                        id: string;
+                        title: string;
+                        upvotes: number;
+                        /** Format: date-time */
+                        publishedAt: string;
+                        thumbnailUrl?: string;
+                        isUpvotedByUser?: boolean;
+                        /** @constant */
+                        type: "paper";
+                      }
+                    | {
+                        slug: string;
+                        /** Format: date-time */
+                        lastUpdated: string;
+                        description?: string;
+                        owner:
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "org";
+                              isEnterprise: boolean;
+                              isUserFollowing?: boolean;
+                            }
+                          | {
+                              avatarUrl: string;
+                              fullname: string;
+                              name: string;
+                              isHf: boolean;
+                              isHfAdmin: boolean;
+                              isMod: boolean;
+                              followerCount?: number;
+                              /** @constant */
+                              type: "user";
+                              isPro: boolean;
+                              _id: string;
+                              isUserFollowing?: boolean;
+                            };
+                        title: string;
                         /** @enum {unknown} */
-                        flavor: "cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8";
-                        /** @default null */
-                        timeoutSeconds?: number | null;
-                    };
-                };
-            };
-            responses: {
-                /** @description The job after it has been started */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Job"];
-                    };
-                };
-            };
+                        theme:
+                          | "orange"
+                          | "blue"
+                          | "green"
+                          | "purple"
+                          | "pink"
+                          | "indigo";
+                        upvotes: number;
+                        isUpvotedByUser: boolean;
+                        id: string;
+                        numberItems: number;
+                        /** @constant */
+                        type: "collection";
+                      }
+                  ))[];
+                }[]
+              | {
+                  title: string;
+                  private: boolean;
+                  upvotes: number;
+                  name: string;
+                }[];
+          };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/api/jobs/{namespace}/{jobId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get a job */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    jobId: string;
-                };
-                cookie?: never;
+    put?: never;
+    /** Create a collection */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            title: string;
+            description?: string;
+            namespace: string;
+            item?: {
+              /** @enum {unknown} */
+              type: "paper" | "collection" | "space" | "model" | "dataset";
+              id: string;
             };
-            requestBody?: never;
-            responses: {
-                /** @description The job */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+            /** @default false */
+            private?: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description The created collection */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              slug: string;
+              title: string;
+              description?: string;
+              /** Format: date-time */
+              lastUpdated: string;
+              gating:
+                | true
+                | (
+                    | false
+                    | {
+                        /** @constant */
+                        mode: "auto";
+                      }
+                    | {
+                        /** @constant */
+                        mode: "manual";
+                        notifications: {
+                          /** @enum {unknown} */
+                          mode: "bulk" | "real-time";
+                          email?: string;
+                        };
+                      }
+                  );
+              owner:
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "org";
+                    isEnterprise: boolean;
+                    isUserFollowing?: boolean;
+                  }
+                | {
+                    avatarUrl: string;
+                    fullname: string;
+                    name: string;
+                    isHf: boolean;
+                    isHfAdmin: boolean;
+                    isMod: boolean;
+                    followerCount?: number;
+                    /** @constant */
+                    type: "user";
+                    isPro: boolean;
+                    _id: string;
+                    isUserFollowing?: boolean;
+                  };
+              position: number;
+              /** @enum {unknown} */
+              theme: "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
+              private: boolean;
+              upvotes: number;
+              shareUrl: string;
+              isUpvotedByUser: boolean;
+              items: ({
+                _id: string;
+                note?: {
+                  html: string;
+                  text: string;
+                };
+                gallery?: string[];
+                position: number;
+              } & (
+                | {
+                    author: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    likes: number;
+                    datasetsServerInfo?: {
+                      /** @enum {unknown} */
+                      viewer: "preview" | "viewer-partial" | "viewer";
+                      numRows: number | null;
+                      libraries: (
+                        | "mlcroissant"
+                        | "webdataset"
+                        | "datasets"
+                        | "pandas"
+                        | "dask"
+                        | "distilabel"
+                        | "fiftyone"
+                        | "argilla"
+                        | "polars"
+                        | "duckdb"
+                      )[];
+                      formats: (
+                        | "json"
+                        | "csv"
+                        | "parquet"
+                        | "imagefolder"
+                        | "audiofolder"
+                        | "webdataset"
+                        | "text"
+                        | "arrow"
+                      )[];
+                      modalities: (
+                        | "3d"
+                        | "audio"
+                        | "document"
+                        | "geospatial"
+                        | "image"
+                        | "tabular"
+                        | "text"
+                        | "timeseries"
+                        | "video"
+                      )[];
                     };
-                    content: {
-                        "application/json": components["schemas"]["Job"];
+                    private: boolean;
+                    /** @constant */
+                    repoType: "dataset";
+                    downloads: number;
+                    gated: false | ("auto" | "manual");
+                    /** Format: date-time */
+                    lastModified: string;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
                     };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/jobs/{namespace}/{jobId}/logs": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream job logs
-         * @description Stream the logs of a job, using SSE
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    jobId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/jobs/{namespace}/{jobId}/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream job metrics
-         * @description Stream the metrics of a job, using SSE
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    jobId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/jobs/{namespace}/{jobId}/events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Stream job events
-         * @description Stream the events of a job, using SSE
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    jobId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/jobs/{namespace}/{jobId}/cancel": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Cancel a job */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    namespace: string;
-                    jobId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The job after it has been canceled */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
+                    /** @constant */
+                    type: "dataset";
+                  }
+                | {
+                    author: string;
+                    downloads: number;
+                    id: string;
+                    availableInferenceProviders: {
+                      /** @enum {unknown} */
+                      provider:
+                        | "black-forest-labs"
+                        | "cerebras"
+                        | "cohere"
+                        | "fal-ai"
+                        | "featherless-ai"
+                        | "fireworks-ai"
+                        | "groq"
+                        | "hf-inference"
+                        | "hyperbolic"
+                        | "nebius"
+                        | "novita"
+                        | "nscale"
+                        | "openai"
+                        | "ovhcloud"
+                        | "replicate"
+                        | "sambanova"
+                        | "together";
+                      /** @enum {unknown} */
+                      providerStatus: "live" | "staging" | "error";
+                      /** @enum {unknown} */
+                      modelStatus: "live" | "staging" | "error";
+                      providerId: string;
+                      /** @enum {unknown} */
+                      task:
+                        | "text-classification"
+                        | "token-classification"
+                        | "table-question-answering"
+                        | "question-answering"
+                        | "zero-shot-classification"
+                        | "translation"
+                        | "summarization"
+                        | "feature-extraction"
+                        | "text-generation"
+                        | "text2text-generation"
+                        | "fill-mask"
+                        | "sentence-similarity"
+                        | "text-to-speech"
+                        | "text-to-audio"
+                        | "automatic-speech-recognition"
+                        | "audio-to-audio"
+                        | "audio-classification"
+                        | "audio-text-to-text"
+                        | "voice-activity-detection"
+                        | "depth-estimation"
+                        | "image-classification"
+                        | "object-detection"
+                        | "image-segmentation"
+                        | "text-to-image"
+                        | "image-to-text"
+                        | "image-to-image"
+                        | "image-to-video"
+                        | "unconditional-image-generation"
+                        | "video-classification"
+                        | "reinforcement-learning"
+                        | "robotics"
+                        | "tabular-classification"
+                        | "tabular-regression"
+                        | "tabular-to-text"
+                        | "table-to-text"
+                        | "multiple-choice"
+                        | "text-ranking"
+                        | "text-retrieval"
+                        | "time-series-forecasting"
+                        | "text-to-video"
+                        | "image-text-to-text"
+                        | "visual-question-answering"
+                        | "document-question-answering"
+                        | "zero-shot-image-classification"
+                        | "graph-ml"
+                        | "mask-generation"
+                        | "zero-shot-object-detection"
+                        | "text-to-3d"
+                        | "image-to-3d"
+                        | "image-feature-extraction"
+                        | "video-text-to-text"
+                        | "keypoint-detection"
+                        | "visual-document-retrieval"
+                        | "any-to-any"
+                        | "video-to-video"
+                        | "other"
+                        | "conversational";
+                      /** @constant */
+                      adapterType?: "lora";
+                      adapterWeightsPath?: string;
+                    }[];
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pipeline_tag?: string;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "model";
+                    gated: false | ("auto" | "manual");
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
                     };
-                    content: {
-                        "application/json": components["schemas"]["Job"];
+                    numParameters?: number;
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    widgetOutputUrls?: string[];
+                    /** @constant */
+                    type: "model";
+                  }
+                | {
+                    author: string;
+                    colorFrom: string;
+                    colorTo: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    emoji: string;
+                    id: string;
+                    isLikedByUser: boolean;
+                    /** Format: date-time */
+                    lastModified: string;
+                    likes: number;
+                    pinned: boolean;
+                    private: boolean;
+                    /** @constant */
+                    repoType: "space";
+                    title: string;
+                    /** @enum {unknown} */
+                    sdk?: "gradio" | "docker" | "static" | "streamlit";
+                    runtime: {
+                      /** @enum {unknown} */
+                      stage:
+                        | "NO_APP_FILE"
+                        | "CONFIG_ERROR"
+                        | "BUILDING"
+                        | "BUILD_ERROR"
+                        | "APP_STARTING"
+                        | "RUNNING"
+                        | "RUNNING_BUILDING"
+                        | "RUNNING_APP_STARTING"
+                        | "RUNTIME_ERROR"
+                        | "DELETING"
+                        | "STOPPED"
+                        | "PAUSED"
+                        | "SLEEPING";
+                      hardware: {
+                        current:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                        requested:
+                          | (
+                              | "cpu-basic"
+                              | "cpu-upgrade"
+                              | "cpu-performance"
+                              | "cpu-xl"
+                              | "zero-a10g"
+                              | "t4-small"
+                              | "t4-medium"
+                              | "l4x1"
+                              | "l4x4"
+                              | "l40sx1"
+                              | "l40sx4"
+                              | "l40sx8"
+                              | "a10g-small"
+                              | "a10g-large"
+                              | "a10g-largex2"
+                              | "a10g-largex4"
+                              | "a100-large"
+                              | "h100"
+                              | "h100x8"
+                            )
+                          | null;
+                      };
+                      storage: ("small" | "medium" | "large") | null;
+                      errorMessage?: string;
+                      gcTimeout?: number | null;
+                      replicas: {
+                        current?: number | null;
+                        requested: number | "auto";
+                      };
+                      devMode?: boolean;
+                      domains?: {
+                        domain: string;
+                        isCustom?: boolean | null;
+                        /** @enum {unknown} */
+                        stage: "READY" | "PENDING";
+                      }[];
+                      sha?: string;
                     };
-                };
+                    originSpace?: {
+                      author:
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "org";
+                            isEnterprise: boolean;
+                            isUserFollowing?: boolean;
+                          }
+                        | {
+                            avatarUrl: string;
+                            fullname: string;
+                            name: string;
+                            isHf: boolean;
+                            isHfAdmin: boolean;
+                            isMod: boolean;
+                            followerCount?: number;
+                            /** @constant */
+                            type: "user";
+                            isPro: boolean;
+                            _id: string;
+                            isUserFollowing?: boolean;
+                          };
+                      name: string;
+                    };
+                    ai_short_description?: string;
+                    ai_category?: string;
+                    trendingScore?: number;
+                    resourceGroup?: {
+                      id: string;
+                      name: string;
+                      numUsers: number;
+                    };
+                    tags: string[];
+                    authorData?:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    shortDescription?: string;
+                    semanticRelevancyScore?: number;
+                    /** @constant */
+                    type: "space";
+                  }
+                | {
+                    id: string;
+                    title: string;
+                    upvotes: number;
+                    /** Format: date-time */
+                    publishedAt: string;
+                    thumbnailUrl?: string;
+                    isUpvotedByUser?: boolean;
+                    /** @constant */
+                    type: "paper";
+                  }
+                | {
+                    slug: string;
+                    /** Format: date-time */
+                    lastUpdated: string;
+                    description?: string;
+                    owner:
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "org";
+                          isEnterprise: boolean;
+                          isUserFollowing?: boolean;
+                        }
+                      | {
+                          avatarUrl: string;
+                          fullname: string;
+                          name: string;
+                          isHf: boolean;
+                          isHfAdmin: boolean;
+                          isMod: boolean;
+                          followerCount?: number;
+                          /** @constant */
+                          type: "user";
+                          isPro: boolean;
+                          _id: string;
+                          isUserFollowing?: boolean;
+                        };
+                    title: string;
+                    /** @enum {unknown} */
+                    theme:
+                      | "orange"
+                      | "blue"
+                      | "green"
+                      | "purple"
+                      | "pink"
+                      | "indigo";
+                    upvotes: number;
+                    isUpvotedByUser: boolean;
+                    id: string;
+                    numberItems: number;
+                    /** @constant */
+                    type: "collection";
+                  }
+              ))[];
             };
+          };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+        409: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: string;
+              slug?: string;
+            };
+            description: unknown;
+          };
+        };
+      };
     };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List of jobs for an entity */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The list of jobs */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Job"][];
+          };
+        };
+      };
+    };
+    put?: never;
+    /** Start a job */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            spaceId?: string;
+            dockerImage?: string;
+            arguments?: string[];
+            command?: string[];
+            environment: {
+              [key: string]: string;
+            };
+            secrets?: {
+              [key: string]: string;
+            };
+            /** @enum {unknown} */
+            flavor:
+              | "cpu-basic"
+              | "cpu-upgrade"
+              | "cpu-performance"
+              | "cpu-xl"
+              | "zero-a10g"
+              | "t4-small"
+              | "t4-medium"
+              | "l4x1"
+              | "l4x4"
+              | "l40sx1"
+              | "l40sx4"
+              | "l40sx8"
+              | "a10g-small"
+              | "a10g-large"
+              | "a10g-largex2"
+              | "a10g-largex4"
+              | "a100-large"
+              | "h100"
+              | "h100x8";
+            /** @default null */
+            timeoutSeconds?: number | null;
+          };
+        };
+      };
+      responses: {
+        /** @description The job after it has been started */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Job"];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}/{jobId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get a job */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          jobId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The job */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Job"];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}/{jobId}/logs": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream job logs
+     * @description Stream the logs of a job, using SSE
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          jobId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}/{jobId}/metrics": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream job metrics
+     * @description Stream the metrics of a job, using SSE
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          jobId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}/{jobId}/events": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stream job events
+     * @description Stream the events of a job, using SSE
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          jobId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: never;
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/jobs/{namespace}/{jobId}/cancel": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Cancel a job */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          namespace: string;
+          jobId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description The job after it has been canceled */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["Job"];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        RepoId: {
-            name: string;
-            /** @enum {unknown} */
-            type: "dataset" | "model" | "space";
-        };
-        Job: {
-            id: string;
-            /** Format: date-time */
-            createdAt: string;
-            owner: {
-                id: string;
-                name: string;
-            };
-            spaceId?: string;
-            dockerImage?: string;
-            timeout?: number;
-            environment: {
-                [key: string]: string;
-            };
-            secrets: {
-                [key: string]: null;
-            };
-            command?: string[];
-            arguments?: string[];
-            /** @enum {unknown} */
-            flavor: "cpu-basic" | "cpu-upgrade" | "cpu-performance" | "cpu-xl" | "zero-a10g" | "t4-small" | "t4-medium" | "l4x1" | "l4x4" | "l40sx1" | "l40sx4" | "l40sx8" | "a10g-small" | "a10g-large" | "a10g-largex2" | "a10g-largex4" | "a100-large" | "h100" | "h100x8";
-            status: {
-                /** @enum {unknown} */
-                stage: "COMPLETED" | "CANCELED" | "ERROR" | "DELETED" | "RUNNING";
-                message: string | null;
-            };
-        };
+  schemas: {
+    RepoId: {
+      name: string;
+      /** @enum {unknown} */
+      type: "dataset" | "model" | "space";
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    Job: {
+      id: string;
+      /** Format: date-time */
+      createdAt: string;
+      owner: {
+        id: string;
+        name: string;
+      };
+      spaceId?: string;
+      dockerImage?: string;
+      timeout?: number;
+      environment: {
+        [key: string]: string;
+      };
+      secrets: {
+        [key: string]: null;
+      };
+      command?: string[];
+      arguments?: string[];
+      /** @enum {unknown} */
+      flavor:
+        | "cpu-basic"
+        | "cpu-upgrade"
+        | "cpu-performance"
+        | "cpu-xl"
+        | "zero-a10g"
+        | "t4-small"
+        | "t4-medium"
+        | "l4x1"
+        | "l4x4"
+        | "l40sx1"
+        | "l40sx4"
+        | "l40sx8"
+        | "a10g-small"
+        | "a10g-large"
+        | "a10g-largex2"
+        | "a10g-largex4"
+        | "a100-large"
+        | "h100"
+        | "h100x8";
+      status: {
+        /** @enum {unknown} */
+        stage: "COMPLETED" | "CANCELED" | "ERROR" | "DELETED" | "RUNNING";
+        message: string | null;
+      };
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;
